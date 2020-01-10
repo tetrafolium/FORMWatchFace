@@ -1,0 +1,6 @@
+inspecode:
+
+    uncrustify:
+        auto-fix: true
+        thresholds:
+            num-issues: 999
