@@ -42,28 +42,28 @@ public class FormClockView extends View {
 
     private FormClockRenderer.Options mHourMinOptions, mSecondsOptions;
 
-    public FormClockView(Context context) {
+    public FormClockView(final Context context) {
         super(context);
         init(context, null, 0, 0);
     }
 
-    public FormClockView(Context context, AttributeSet attrs) {
+    public FormClockView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0, 0);
     }
 
-    public FormClockView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FormClockView(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public FormClockView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public FormClockView(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private void init(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         // Attribute initialization
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FormClockView,
                 defStyleAttr, defStyleRes);
@@ -123,7 +123,7 @@ public class FormClockView extends View {
         invalidate();
     }
 
-    public void setColors(int color1, int color2, int color3) {
+    public void setColors(final int color1, final int color2, final int color3) {
         mColor1 = color1;
         mColor2 = color2;
         mColor3 = color3;
@@ -131,14 +131,14 @@ public class FormClockView extends View {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = w;
         mHeight = h;
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
 
         mHourMinRenderer.updateTime();
@@ -192,7 +192,7 @@ public class FormClockView extends View {
 
     private ContentObserver mSystemSettingsObserver = new ContentObserver(mMainThreadHandler) {
         @Override
-        public void onChange(boolean selfChange) {
+        public void onChange(final boolean selfChange) {
             super.onChange(selfChange);
             mHourMinOptions.is24hour = DateFormat.is24HourFormat(getContext());
             mSecondsOptions.is24hour = mHourMinOptions.is24hour;

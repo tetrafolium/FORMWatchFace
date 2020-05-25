@@ -38,22 +38,22 @@ public class ScrimInsetsFrameLayout extends FrameLayout {
     private Rect mTempRect = new Rect();
     private OnInsetsCallback mOnInsetsCallback;
 
-    public ScrimInsetsFrameLayout(Context context) {
+    public ScrimInsetsFrameLayout(final Context context) {
         super(context);
         init(context, null, 0);
     }
 
-    public ScrimInsetsFrameLayout(Context context, AttributeSet attrs) {
+    public ScrimInsetsFrameLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0);
     }
 
-    public ScrimInsetsFrameLayout(Context context, AttributeSet attrs, int defStyle) {
+    public ScrimInsetsFrameLayout(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs, defStyle);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyle) {
+    private void init(final Context context, final AttributeSet attrs, final int defStyle) {
         final TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ScrimInsetsView, defStyle, 0);
         if (a == null) {
@@ -66,7 +66,7 @@ public class ScrimInsetsFrameLayout extends FrameLayout {
     }
 
     @Override
-    protected boolean fitSystemWindows(Rect insets) {
+    protected boolean fitSystemWindows(final Rect insets) {
         mInsets = new Rect(insets);
         setWillNotDraw(mInsetForeground == null);
         ViewCompat.postInvalidateOnAnimation(this);
@@ -77,7 +77,7 @@ public class ScrimInsetsFrameLayout extends FrameLayout {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(final Canvas canvas) {
         super.draw(canvas);
 
         int width = getWidth();
@@ -132,7 +132,7 @@ public class ScrimInsetsFrameLayout extends FrameLayout {
      * UI chrome insets (e.g. a Google Map or a ListView). When using with ListView or GridView, remember to set
      * clipToPadding to false.
      */
-    public void setOnInsetsCallback(OnInsetsCallback onInsetsCallback) {
+    public void setOnInsetsCallback(final OnInsetsCallback onInsetsCallback) {
         mOnInsetsCallback = onInsetsCallback;
     }
 

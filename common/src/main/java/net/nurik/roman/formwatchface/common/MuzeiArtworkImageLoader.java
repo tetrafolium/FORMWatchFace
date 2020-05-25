@@ -37,11 +37,11 @@ import java.io.FileNotFoundException;
 public class MuzeiArtworkImageLoader extends AsyncTaskLoader<MuzeiArtworkImageLoader.LoadedArtwork> {
     private ContentObserver mContentObserver;
 
-    public MuzeiArtworkImageLoader(Context context) {
+    public MuzeiArtworkImageLoader(final Context context) {
         super(context);
     }
 
-    public static boolean hasMuzeiArtwork(Context context) {
+    public static boolean hasMuzeiArtwork(final Context context) {
         Artwork currentArtwork = MuzeiContract.Artwork.getCurrentArtwork(context);
         return currentArtwork != null;
     }
@@ -51,7 +51,7 @@ public class MuzeiArtworkImageLoader extends AsyncTaskLoader<MuzeiArtworkImageLo
         if (mContentObserver == null) {
             mContentObserver = new ContentObserver(null) {
                 @Override
-                public void onChange(boolean selfChange) {
+                public void onChange(final boolean selfChange) {
                     onContentChanged();
                 }
             };
@@ -76,7 +76,7 @@ public class MuzeiArtworkImageLoader extends AsyncTaskLoader<MuzeiArtworkImageLo
         return null;
     }
 
-    private Pair<Integer, Integer> extractColors(Bitmap bitmap) {
+    private Pair<Integer, Integer> extractColors(final Bitmap bitmap) {
         Palette palette = Palette.generate(bitmap, 16);
         int midColor = palette.getVibrantColor(
                 palette.getDarkVibrantColor(
@@ -91,7 +91,7 @@ public class MuzeiArtworkImageLoader extends AsyncTaskLoader<MuzeiArtworkImageLo
         return new Pair<>(lightColor, midColor);
     }
 
-    private static int lighten(int color, float amount) {
+    private static int lighten(final int color, final float amount) {
         float hsv[] = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[2] = Math.max(0f, Math.min(1f, hsv[2] + amount));
@@ -110,7 +110,7 @@ public class MuzeiArtworkImageLoader extends AsyncTaskLoader<MuzeiArtworkImageLo
         public int color1;
         public int color2;
 
-        public LoadedArtwork(Bitmap bitmap, int color1, int color2) {
+        public LoadedArtwork(final Bitmap bitmap, final int color1, final int color2) {
             this.bitmap = bitmap;
             this.color1 = color1;
             this.color2 = color2;

@@ -80,7 +80,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
     private LoadedArtwork mMuzeiLoadedArtwork;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -93,7 +93,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
         ImageButton doneButton = (ImageButton) findViewById(R.id.done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 finish();
             }
         });
@@ -102,7 +102,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
                 findViewById(R.id.scrim_insets_frame_layout);
         scrimInsetsFrameLayout.setOnInsetsCallback(new ScrimInsetsFrameLayout.OnInsetsCallback() {
             @Override
-            public void onInsetsChanged(Rect insets) {
+            public void onInsetsChanged(final Rect insets) {
                 findViewById(R.id.chrome_container).setPadding(0, insets.top, 0, 0);
             }
         });
@@ -147,7 +147,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
 
         pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 float translationX = -pager.getWidth();
                 if (position == 0) {
@@ -176,7 +176,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
     private SharedPreferences.OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener
             = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
             if (ConfigHelper.isConfigPrefKey(key)) {
                 UpdateConfigIntentService.startConfigChangeService(
                         CompanionWatchFaceConfigActivity.this);
@@ -214,7 +214,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
 
             holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     updateAndPersistTheme(theme);
                 }
             });
@@ -245,7 +245,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
 
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 updateAndPersistTheme(theme);
             }
         });
@@ -258,17 +258,17 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
         getLoaderManager().initLoader(LOADER_MUZEI_ARTWORK, null, this);
     }
 
-    private void updateAndPersistTheme(Theme theme) {
+    private void updateAndPersistTheme(final Theme theme) {
         mSharedPreferences.edit().putString(ConfigHelper.KEY_THEME, theme.id).apply();
     }
 
     @Override
-    public Loader<LoadedArtwork> onCreateLoader(int id, Bundle args) {
+    public Loader<LoadedArtwork> onCreateLoader(final int id, final Bundle args) {
         return new MuzeiArtworkImageLoader(this);
     }
 
     @Override
-    public void onLoadFinished(Loader<LoadedArtwork> loader, LoadedArtwork data) {
+    public void onLoadFinished(final Loader<LoadedArtwork> loader, final LoadedArtwork data) {
         mMuzeiLoadedArtwork = data;
         if (mMuzeiThemeUiHolder.selected) {
             updatePreviewView(MUZEI_THEME, mMainClockContainerView, mMainClockView);
@@ -276,7 +276,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLoaderReset(Loader<LoadedArtwork> loader) {
+    public void onLoaderReset(final Loader<LoadedArtwork> loader) {
         mMuzeiLoadedArtwork = null;
     }
 
@@ -313,7 +313,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
                     mCurrentRevealAnimator.setDuration(300);
                     mCurrentRevealAnimator.addListener(new AnimatorListenerAdapter() {
                         @Override
-                        public void onAnimationEnd(Animator animation) {
+                        public void onAnimationEnd(final Animator animation) {
                             if (mCurrentRevealAnimator == animation) {
                                 mAnimateClockContainerView.setVisibility(View.INVISIBLE);
                                 updatePreviewView(holder.theme, mMainClockContainerView, mMainClockView);
@@ -332,7 +332,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
         }
     }
 
-    private void updatePreviewView(Theme theme, ViewGroup clockContainerView, FormClockView clockView) {
+    private void updatePreviewView(final Theme theme, final ViewGroup clockContainerView, final FormClockView clockView) {
         if (theme == Themes.MUZEI_THEME) {
             if (mMuzeiLoadedArtwork != null) {
                 ((ImageView) clockContainerView.findViewById(R.id.background_image))

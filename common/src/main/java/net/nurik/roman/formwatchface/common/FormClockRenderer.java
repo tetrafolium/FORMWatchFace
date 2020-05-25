@@ -41,8 +41,8 @@ public class FormClockRenderer {
     private static final long DEBUG_TIME_MILLIS = 0; //new Date(2015, 2, 22, 12, 59, 52).getTime();
     private static final long BOOT_TIME_MILLIS = System.currentTimeMillis();
 
-    private static final String DEBUG_TIME = null;//"0123456789";
-    private static final String DEBUG_GLYPH = null;//"2_3";
+    private static final String DEBUG_TIME = null; //"0123456789";
+    private static final String DEBUG_GLYPH = null; //"2_3";
     private static final boolean DEBUG_SHOW_RECTS = false;
 
     private int[] mAnimatedGlyphIndices = new int[20];
@@ -72,7 +72,7 @@ public class FormClockRenderer {
 
     private PointF mMeasuredSize = new PointF();
 
-    public FormClockRenderer(Options options, ClockPaints paints) {
+    public FormClockRenderer(final Options options, final ClockPaints paints) {
         this.mOptions = options;
         this.mPaints = paints;
         this.mTempCalendar = Calendar.getInstance();
@@ -113,7 +113,7 @@ public class FormClockRenderer {
         mOffsGlyphPaint.setFilterBitmap(true);
     }
 
-    public void setPaints(ClockPaints paints) {
+    public void setPaints(final ClockPaints paints) {
         mPaints = paints;
     }
 
@@ -150,7 +150,7 @@ public class FormClockRenderer {
         }
     }
 
-    public void updateGlyphsAndAnimDuration(String currentTimeStr, String nextTimeStr) {
+    public void updateGlyphsAndAnimDuration(final String currentTimeStr, final String nextTimeStr) {
         mAnimatedGlyphIndexCount = 0;
         mGlyphCount = 0;
 
@@ -195,11 +195,11 @@ public class FormClockRenderer {
         return mMillisToNext - mAnimDuration;
     }
 
-    public PointF measure(boolean allowAnimate) {
+    public PointF measure(final boolean allowAnimate) {
         mMeasuredSize.set(0, 0);
         layoutPass(new LayoutPassCallback() {
             @Override
-            public void visitGlyph(Glyph glyph, float glyphAnimProgress, RectF rect) {
+            public void visitGlyph(final Glyph glyph, final float glyphAnimProgress, final RectF rect) {
                 mMeasuredSize.x = Math.max(mMeasuredSize.x, rect.right);
                 mMeasuredSize.y = Math.max(mMeasuredSize.y, rect.bottom);
             }
@@ -207,7 +207,7 @@ public class FormClockRenderer {
         return mMeasuredSize;
     }
 
-    private void layoutPass(LayoutPassCallback cb, boolean allowAnimate, RectF rectF) {
+    private void layoutPass(final LayoutPassCallback cb, final boolean allowAnimate, final RectF rectF) {
         float x = 0;
 
         for (int i = 0; i < mGlyphCount; i++) {
@@ -222,12 +222,12 @@ public class FormClockRenderer {
             rectF.set(x, 0, x + glyphWidth, mOptions.textSize);
             cb.visitGlyph(glyph, t, rectF);
 
-            x += Math.floor(glyphWidth +
-                    (i >= 0 ? mOptions.charSpacing : 0));
+            x += Math.floor(glyphWidth
+                    + (i >= 0 ? mOptions.charSpacing : 0));
         }
     }
 
-    public void draw(final Canvas canvas, float left, float top, final boolean allowAnimate,
+    public void draw(final Canvas canvas, final float left, final float top, final boolean allowAnimate,
                      final boolean offscreenGlyphs) {
         mFont.canvas = offscreenGlyphs ? mOffsGlyphCanvas : canvas;
 
@@ -236,7 +236,7 @@ public class FormClockRenderer {
 
         layoutPass(new LayoutPassCallback() {
             @Override
-            public void visitGlyph(Glyph glyph, float glyphAnimProgress, RectF rect) {
+            public void visitGlyph(final Glyph glyph, final float glyphAnimProgress, final RectF rect) {
                 int sc;
 
                 if (glyphAnimProgress == 0) {
@@ -265,8 +265,8 @@ public class FormClockRenderer {
 
                 sc = canvas.save();
                 canvas.translate(rect.left, rect.top);
-                float scale = mOptions.textSize /
-                        (offscreenGlyphs ? mOffsGlyphBitmapUnpaddedSize : Font.DRAWHEIGHT);
+                float scale = mOptions.textSize
+                        / (offscreenGlyphs ? mOffsGlyphBitmapUnpaddedSize : Font.DRAWHEIGHT);
                 canvas.scale(scale, scale);
                 if (offscreenGlyphs) {
                     canvas.translate(-mOffsGlyphBitmapUnpaddedSize / 2, -mOffsGlyphBitmapUnpaddedSize / 2);
@@ -283,7 +283,7 @@ public class FormClockRenderer {
         mFont.canvas = null;
     }
 
-    private float getGlyphAnimProgress(int glyphIndex) {
+    private float getGlyphAnimProgress(final int glyphIndex) {
         int indexIntoAnimatedGlyphs = -1;
         for (int i = 0; i < mAnimatedGlyphIndexCount; i++) {
             if (mAnimatedGlyphIndices[i] == glyphIndex) {
@@ -307,14 +307,14 @@ public class FormClockRenderer {
                 + mOptions.glyphAnimDuration);
     }
 
-    String secondsString(Calendar c) {
+    String secondsString(final Calendar c) {
         int s = c.get(Calendar.SECOND);
         return ":"
                 + (s < 10 ? "0" : "")
                 + s;
     }
 
-    String hourMinString(Calendar c) {
+    String hourMinString(final Calendar c) {
         int h = c.get(mOptions.is24hour ? Calendar.HOUR_OF_DAY : Calendar.HOUR);
         if (!mOptions.is24hour && h == 0) {
             h = 12;
@@ -341,7 +341,7 @@ public class FormClockRenderer {
         public Options() {
         }
 
-        public Options(Options copy) {
+        public Options(final Options copy) {
             this.textSize = copy.textSize;
             this.onlySeconds = copy.onlySeconds;
             this.charSpacing = copy.charSpacing;
@@ -386,13 +386,15 @@ public class FormClockRenderer {
             initGlyphs();
         }
 
-        public Glyph getGlyph(String key) {
+        public Glyph getGlyph(final String key) {
             Glyph glyph = mGlyphMap.get(key);
-            if (glyph == null) { return mGlyphMap.get("0_1"); }
+            if (glyph == null) {
+                return mGlyphMap.get("0_1");
+            }
             return glyph;
         }
 
-        private void scaleUniform(float s, float px, float py) {
+        private void scaleUniform(final float s, final float px, final float py) {
             canvas.scale(s, s, px, py);
         }
 
@@ -400,22 +402,22 @@ public class FormClockRenderer {
             API 21 compat methods
          */
 
-        private void arcTo(float l, float t, float r, float b, float startAngle, float sweepAngle, boolean forceMoveTo) {
+        private void arcTo(final float l, final float t, final float r, final float b, final float startAngle, final float sweepAngle, final boolean forceMoveTo) {
             tempRectF.set(l, t, r, b);
             path.arcTo(tempRectF, startAngle, sweepAngle, forceMoveTo);
         }
 
-        private void drawArc(float l, float t, float r, float b, float startAngle, float sweepAngle, boolean useCenter, Paint paint) {
+        private void drawArc(final float l, final float t, final float r, final float b, final float startAngle, final float sweepAngle, final boolean useCenter, final Paint paint) {
             tempRectF.set(l, t, r, b);
             canvas.drawArc(tempRectF, startAngle, sweepAngle, useCenter, paint);
         }
 
-        private void drawRoundRect(float l, float t, float r, float b, float rx, float ry, Paint paint) {
+        private void drawRoundRect(final float l, final float t, final float r, final float b, final float rx, final float ry, final Paint paint) {
             tempRectF.set(l, t, r, b);
             canvas.drawRoundRect(tempRectF, rx, ry, paint);
         }
 
-        private void drawOval(float l, float t, float r, float b, Paint paint) {
+        private void drawOval(final float l, final float t, final float r, final float b, final Paint paint) {
             tempRectF.set(l, t, r, b);
             canvas.drawOval(tempRectF, paint);
         }
@@ -424,35 +426,35 @@ public class FormClockRenderer {
             Stroke + fill drawing wrappers
          */
 
-        private void drawArc(float l, float t, float r, float b, float startAngle, float sweepAngle, boolean useCenter, int color) {
+        private void drawArc(final float l, final float t, final float r, final float b, final float startAngle, final float sweepAngle, final boolean useCenter, final int color) {
             drawArc(l, t, r, b, startAngle, sweepAngle, useCenter, mPaints.fills[color]);
             if (mPaints.hasStroke) {
                 drawArc(l, t, r, b, startAngle, sweepAngle, useCenter, mPaints.strokes[color]);
             }
         }
 
-        private void drawRoundRect(float l, float t, float r, float b, float rx, float ry, int color) {
+        private void drawRoundRect(final float l, final float t, final float r, final float b, final float rx, final float ry, final int color) {
             drawRoundRect(l, t, r, b, rx, ry, mPaints.fills[color]);
             if (mPaints.hasStroke) {
                 drawRoundRect(l, t, r, b, rx, ry, mPaints.strokes[color]);
             }
         }
 
-        private void drawOval(float l, float t, float r, float b, int color) {
+        private void drawOval(final float l, final float t, final float r, final float b, final int color) {
             drawOval(l, t, r, b, mPaints.fills[color]);
             if (mPaints.hasStroke) {
                 drawOval(l, t, r, b, mPaints.strokes[color]);
             }
         }
 
-        private void drawRect(float l, float t, float r, float b, int color) {
+        private void drawRect(final float l, final float t, final float r, final float b, final int color) {
             canvas.drawRect(l, t, r, b, mPaints.fills[color]);
             if (mPaints.hasStroke) {
                 canvas.drawRect(l, t, r, b, mPaints.strokes[color]);
             }
         }
 
-        private void drawPath(Path path, int color) {
+        private void drawPath(final Path path, final int color) {
             canvas.drawPath(path, mPaints.fills[color]);
             if (mPaints.hasStroke) {
                 canvas.drawPath(path, mPaints.strokes[color]);
@@ -472,7 +474,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d1 = decelerate5(progress(t, 0, 0.5f));
                     float d2 = decelerate5(progress(t, 0.5f, 1));
 
@@ -516,7 +518,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(
                             decelerate5(progress(t, 0.5f, 1)),
                             interpolate(decelerate5(progress(t, 0, 0.5f)), 144, 192), 100);
@@ -535,7 +537,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = 1 - decelerate5(progress(t, 0, 0.5f));
                     float d1 = decelerate5(progress(t, 0.3f, 0.8f));
                     float d2 = decelerate5(progress(t, 0.5f, 1.0f));
@@ -579,7 +581,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0f, 0.5f)), 100, 144);
                 }
             });
@@ -596,7 +598,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(progress(t, 0, 0.5f));
                     float d1 = decelerate5(progress(t, 0.5f, 1.0f));
 
@@ -674,7 +676,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0f, 0.5f)), 144, 128);
                 }
             });
@@ -691,7 +693,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d1 = 1 - decelerate5(progress(t, 0, 0.5f));
                     float d2 = decelerate5(progress(t, 0.5f, 1));
 
@@ -767,7 +769,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0.5f, 1f)), 128, 144);
                 }
             });
@@ -784,7 +786,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(progress(t, 0, 0.5f));
                     float d1 = decelerate5(progress(t, 0.5f, 1));
 
@@ -839,7 +841,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0f, 0.5f)), 144, 128);
                 }
             });
@@ -856,7 +858,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(progress(t, 0, 0.7f));
                     float d1 = decelerate5(progress(t, 0.1f, 1));
 
@@ -913,7 +915,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0.1f, 1f)), 128, 144);
                 }
             });
@@ -930,7 +932,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(t);
 
                     // 7 rectangle
@@ -960,7 +962,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return 144;
                 }
             });
@@ -977,7 +979,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(progress(t, 0, 0.5f));
                     float d1 = decelerate5(progress(t, 0.2f, 0.5f));
                     float d2 = decelerate5(progress(t, 0.5f, 1));
@@ -1033,7 +1035,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return 144;
                 }
             });
@@ -1050,7 +1052,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(progress(t, 0, 0.5f));
                     float d1 = decelerate5(progress(t, 0.5f, 1));
 
@@ -1083,13 +1085,13 @@ public class FormClockRenderer {
 
                             // left bottom
                             canvas.save();
-                            scaleUniform(interpolate(d, 2f/3, 1), 0, 144);
+                            scaleUniform(interpolate(d, 2f / 3, 1), 0, 144);
                             drawArc(0, 0, 144, 144, 90, 180, true, COLOR_1);
                             canvas.restore();
 
                             // right bottom
                             canvas.save();
-                            scaleUniform(interpolate(d, 2f/3, 1), 144, 144);
+                            scaleUniform(interpolate(d, 2f / 3, 1), 144, 144);
                             drawArc(0, 0, 144, 144, -90, 180, true, COLOR_2);
                             canvas.restore();
                         }
@@ -1121,7 +1123,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return 144;
                 }
             });
@@ -1138,7 +1140,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(t);
 
                     // 9
@@ -1169,7 +1171,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return 144;
                 }
             });
@@ -1186,7 +1188,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d1 = decelerate5(progress(t, 0, 0.5f));
                     float d2 = decelerate5(progress(t, 0.5f, 1));
 
@@ -1202,7 +1204,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0, 0.5f)), 0, 100);
                 }
             });
@@ -1219,7 +1221,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d1 = decelerate5(progress(t, 0, 0.5f));
                     float d2 = decelerate5(progress(t, 0.5f, 1));
 
@@ -1234,7 +1236,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0.5f, 1)), 100, 0);
                 }
             });
@@ -1252,7 +1254,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(progress(t, 0, 0.5f));
                     float d1 = decelerate5(progress(t, 0.5f, 1.0f));
 
@@ -1292,7 +1294,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0, 0.5f)), 144,
                             interpolate(decelerate5(progress(t, 0.5f, 1)), 72, 0));
                 }
@@ -1311,7 +1313,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d1 = 1 - decelerate5(progress(t, 0, 0.5f));
                     float d2 = decelerate5(progress(t, 0.5f, 1));
 
@@ -1345,7 +1347,7 @@ public class FormClockRenderer {
 
                     // 0
 
-                    scaleUniform(interpolate(d2, 2f/3, 1), 80, 144);
+                    scaleUniform(interpolate(d2, 2f / 3, 1), 80, 144);
 
                     // half-circles
                     canvas.translate(8, 0);
@@ -1366,7 +1368,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0, 0.5f)), 128, 144);
                 }
             });
@@ -1383,7 +1385,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(progress(t, 0, 0.5f));
                     float d1 = decelerate5(progress(t, 0.5f, 1));
 
@@ -1408,7 +1410,7 @@ public class FormClockRenderer {
                             interpolate(d1, 0, 80), interpolate(d, 0, interpolate(d1, 48, 0)),
                             80, interpolate(d, 96, 144), COLOR_1);
 
-                    scaleUniform(interpolate(d1, 2f/3, 1), 80, 144);
+                    scaleUniform(interpolate(d1, 2f / 3, 1), 80, 144);
 
                     // half-circles
                     if (d1 > 0) {
@@ -1429,7 +1431,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0, 0.5f)), 128, 144);
                 }
             });
@@ -1446,7 +1448,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     float d = decelerate5(progress(t, 0, 0.5f));
                     float d1 = decelerate5(progress(t, 0.2f, 0.5f));
                     float d2 = decelerate5(progress(t, 0.5f, 1));
@@ -1490,7 +1492,7 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return interpolate(decelerate5(progress(t, 0, 0.5f)), 144, 100);
                 }
             });
@@ -1507,13 +1509,13 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                     drawOval(0, 0, 48, 48, COLOR_2);
                     drawOval(0, 96, 48, 144, COLOR_3);
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return 48;
                 }
             });
@@ -1530,11 +1532,11 @@ public class FormClockRenderer {
                 }
 
                 @Override
-                public void draw(float t) {
+                public void draw(final float t) {
                 }
 
                 @Override
-                public float getWidthAtProgress(float t) {
+                public float getWidthAtProgress(final float t) {
                     return 0;
                 }
             });

@@ -49,7 +49,7 @@ public class WearableWatchFaceConfigActivity extends Activity {
     private ConfigComplicationsFragment mConfigComplicationsFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.config_watch_face_activity);
 
@@ -59,7 +59,7 @@ public class WearableWatchFaceConfigActivity extends Activity {
         mGridViewPager = (GridViewPager) findViewById(R.id.pager);
         mGridViewPager.setAdapter(new FragmentGridPagerAdapter(getFragmentManager()) {
             @Override
-            public Fragment getFragment(int row, int column) {
+            public Fragment getFragment(final int row, final int column) {
                 switch (column) {
                     case 0:
                         return new ConfigThemeFragment();
@@ -77,7 +77,7 @@ public class WearableWatchFaceConfigActivity extends Activity {
             }
 
             @Override
-            public int getColumnCount(int row) {
+            public int getColumnCount(final int row) {
                 return 2;
             }
         });
@@ -88,7 +88,7 @@ public class WearableWatchFaceConfigActivity extends Activity {
         mContainerView = findViewById(R.id.container);
         mContainerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
-            public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+            public WindowInsets onApplyWindowInsets(final View v, final WindowInsets insets) {
                 mIsRound = insets.isRound();
                 mInsetsRect.set(
                         insets.getSystemWindowInsetLeft(),
@@ -135,7 +135,7 @@ public class WearableWatchFaceConfigActivity extends Activity {
     private SharedPreferences.OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener
             = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
             if (ConfigHelper.isConfigPrefKey(key)) {
                 UpdateConfigIntentService.startConfigChangeService(
                         WearableWatchFaceConfigActivity.this);

@@ -47,14 +47,14 @@ public class ConfigComplicationsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.config_complications_fragment, container, false);
         rebuildComplicationsList();
         return mRootView;
@@ -82,7 +82,7 @@ public class ConfigComplicationsFragment extends Fragment {
 
             itemContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     boolean isPrefOn = mSharedPreferences.getBoolean(prefKey, false);
                     mSharedPreferences.edit().putBoolean(prefKey, !isPrefOn).apply();
                     rebuildComplicationsList();

@@ -127,7 +127,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
         private RectF mTempRectF = new RectF();
 
         @Override
-        public void onCreate(SurfaceHolder holder) {
+        public void onCreate(final SurfaceHolder holder) {
             LOGD(TAG, "onCreate");
             super.onCreate(holder);
 
@@ -226,7 +226,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        public void onSurfaceChanged(final SurfaceHolder holder, final int format, final int width, final int height) {
             super.onSurfaceChanged(holder, format, width, height);
             mWidth = width;
             mHeight = height;
@@ -249,13 +249,13 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         @Override
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-        public void onApplyWindowInsets(WindowInsets insets) {
+        public void onApplyWindowInsets(final WindowInsets insets) {
             super.onApplyWindowInsets(insets);
             updateWatchFaceStyle();
         }
 
         @Override
-        public void onVisibilityChanged(boolean visible) {
+        public void onVisibilityChanged(final boolean visible) {
             super.onVisibilityChanged(visible);
             if (visible) {
                 postInvalidate();
@@ -277,7 +277,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         private BroadcastReceiver mMuzeiArtworkChangedReceiver = new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent intent) {
+            public void onReceive(final Context context, final Intent intent) {
                 mMuzeiLoader.startLoading();
             }
         };
@@ -293,7 +293,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         private Loader.OnLoadCompleteListener<LoadedArtwork> mMuzeiLoadCompleteListener
                 = new Loader.OnLoadCompleteListener<LoadedArtwork>() {
-            public void onLoadComplete(Loader<LoadedArtwork> loader, LoadedArtwork data) {
+            public void onLoadComplete(final Loader<LoadedArtwork> loader, final LoadedArtwork data) {
                 if (data != null) {
                     mMuzeiLoadedArtwork = data;
                 } else {
@@ -315,7 +315,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         private ContentObserver mSystemSettingsObserver = new ContentObserver(mMainThreadHandler) {
             @Override
-            public void onChange(boolean selfChange) {
+            public void onChange(final boolean selfChange) {
                 super.onChange(selfChange);
                 initClockRenderers();
                 postInvalidate();
@@ -335,7 +335,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
         private SharedPreferences.OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener
                 = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
                 if (ConfigHelper.isConfigPrefKey(key)) {
                     handleConfigUpdated();
                 }
@@ -354,7 +354,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         private final BroadcastReceiver mTimeZoneReceiver = new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent intent) {
+            public void onReceive(final Context context, final Intent intent) {
                 final String action = intent.getAction();
                 if (Intent.ACTION_TIMEZONE_CHANGED.equals(action)) {
                     initClockRenderers();
@@ -364,7 +364,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
         };
 
         @Override
-        public void onPropertiesChanged(Bundle properties) {
+        public void onPropertiesChanged(final Bundle properties) {
             super.onPropertiesChanged(properties);
 
             mBurnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
@@ -420,7 +420,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onPeekCardPositionUpdate(Rect bounds) {
+        public void onPeekCardPositionUpdate(final Rect bounds) {
             super.onPeekCardPositionUpdate(bounds);
             LOGD(TAG, "onPeekCardPositionUpdate: " + bounds);
             if (!bounds.equals(mCardBounds)) {
@@ -453,14 +453,14 @@ public class FormWatchFace extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onAmbientModeChanged(boolean inAmbientMode) {
+        public void onAmbientModeChanged(final boolean inAmbientMode) {
             LOGD(TAG, "onAmbientModeChanged: " + inAmbientMode);
             super.onAmbientModeChanged(inAmbientMode);
             postInvalidate();
         }
 
         @Override
-        public void onInterruptionFilterChanged(int interruptionFilter) {
+        public void onInterruptionFilterChanged(final int interruptionFilter) {
             LOGD(TAG, "onInterruptionFilterChanged: " + interruptionFilter);
             super.onInterruptionFilterChanged(interruptionFilter);
 
@@ -474,7 +474,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onDraw(Canvas canvas, Rect bounds) {
+        public void onDraw(final Canvas canvas, final Rect bounds) {
             boolean ambientMode = isInAmbientMode();
 
             updatePaintsForTheme(mCurrentTheme);
@@ -516,8 +516,8 @@ public class FormWatchFace extends CanvasWatchFaceService {
                             decelerate3(constrain(
                                     (currentTimeMillis - mUpdateThemeStartAnimTimeMillis)
                                             * 1f / UPDATE_THEME_ANIM_DURATION,
-                                    0 , 1)),
-                            0 , maxRadius);
+                                    0, 1)),
+                            0, maxRadius);
 
                     mTempRectF.set(cx - radius, cy - radius, cx + radius, cy + radius);
                     mUpdateThemeClipPath.addOval(mTempRectF, Path.Direction.CW);
@@ -560,7 +560,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
             mDateStr = DateFormat.format("EEE d", Calendar.getInstance()).toString().toUpperCase();
         }
 
-        private void updatePaintsForTheme(Theme theme) {
+        private void updatePaintsForTheme(final Theme theme) {
             if (theme == MUZEI_THEME) {
                 mBackgroundPaint.setColor(Color.BLACK);
                 if (mMuzeiLoadedArtwork != null) {
@@ -580,7 +580,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
             }
         }
 
-        private void drawClock(Canvas canvas) {
+        private void drawClock(final Canvas canvas) {
             boolean ambientMode = isInAmbientMode();
             boolean offscreenGlyphs = !ambientMode;
 
@@ -641,7 +641,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         private Handler mInvalidateHandler = new Handler() {
             @Override
-            public void handleMessage(Message msg) {
+            public void handleMessage(final Message msg) {
                 postInvalidate();
             }
         };
