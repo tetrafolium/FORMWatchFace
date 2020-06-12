@@ -39,8 +39,8 @@ public class ConfigChangeListenerService extends WearableListenerService {
             }
 
             Uri uri = dataEvent.getDataItem().getUri();
-            if (!TextUtils.equals(uri.getHost(), localNodeId) &&
-                    uri.getPath().equals("/config")) {
+            if (!TextUtils.equals(uri.getHost(), localNodeId)
+                    && uri.getPath().equals("/config")) {
                 configHelper.readConfigSharedPrefsFromDataLayer();
             }
         }

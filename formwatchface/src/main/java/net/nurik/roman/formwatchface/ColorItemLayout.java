@@ -25,15 +25,15 @@ import android.widget.LinearLayout;
 public class ColorItemLayout extends LinearLayout implements WearableListView.OnCenterProximityListener {
     private ImageView mCircleView;
 
-    public ColorItemLayout(Context context) {
+    public ColorItemLayout(final Context context) {
         this(context, null);
     }
 
-    public ColorItemLayout(Context context, AttributeSet attrs) {
+    public ColorItemLayout(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ColorItemLayout(Context context, AttributeSet attrs, int defStyle) {
+    public ColorItemLayout(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -45,14 +45,14 @@ public class ColorItemLayout extends LinearLayout implements WearableListView.On
     }
 
     @Override
-    public void onCenterPosition(boolean animate) {
+    public void onCenterPosition(final boolean animate) {
         mCircleView.setScaleX(1f);
         mCircleView.setScaleY(1f);
         mCircleView.setAlpha(1f);
     }
 
     @Override
-    public void onNonCenterPosition(boolean animate) {
+    public void onNonCenterPosition(final boolean animate) {
         mCircleView.setScaleX(0.7f);
         mCircleView.setScaleY(0.7f);
         mCircleView.setAlpha(0.5f);

@@ -41,14 +41,14 @@ public class ConfigThemeFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.config_theme_fragment, container, false);
 
         WearableListView listView = (WearableListView) mRootView.findViewById(R.id.wearable_list);
@@ -61,18 +61,18 @@ public class ConfigThemeFragment extends Fragment {
             private static final int TYPE_MUZEI = 2;
 
             @Override
-            public WearableListView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public WearableListView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
                 return new ItemViewHolder(inflater
                                           .inflate(R.layout.config_theme_color_item, parent, false));
             }
 
             @Override
-            public int getItemViewType(int position) {
+            public int getItemViewType(final int position) {
                 return (position >= Themes.THEMES.length) ? TYPE_MUZEI : TYPE_NORMAL;
             }
 
             @Override
-            public void onBindViewHolder(WearableListView.ViewHolder holder, int position) {
+            public void onBindViewHolder(final WearableListView.ViewHolder holder, final int position) {
                 ItemViewHolder itemHolder = (ItemViewHolder) holder;
                 Themes.Theme theme;
                 if (getItemViewType(position) == TYPE_MUZEI) {
@@ -94,7 +94,7 @@ public class ConfigThemeFragment extends Fragment {
 
         listView.setClickListener(new WearableListView.ClickListener() {
             @Override
-            public void onClick(WearableListView.ViewHolder viewHolder) {
+            public void onClick(final WearableListView.ViewHolder viewHolder) {
                 String theme = viewHolder.itemView.getTag().toString();
                 mSharedPreferences.edit().putString(ConfigHelper.KEY_THEME, theme).apply();
                 getActivity().finish();
@@ -123,7 +123,7 @@ public class ConfigThemeFragment extends Fragment {
     public static class ItemViewHolder extends WearableListView.ViewHolder {
         private ImageView circleView;
 
-        public ItemViewHolder(View itemView) {
+        public ItemViewHolder(final View itemView) {
             super(itemView);
             circleView = (ImageView) itemView.findViewById(R.id.circle);
         }

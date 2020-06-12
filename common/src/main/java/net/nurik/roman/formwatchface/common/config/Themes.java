@@ -45,7 +45,7 @@ public class Themes {
         }
     }
 
-    public static Theme getThemeById(String id) {
+    public static Theme getThemeById(final String id) {
         if ("muzei".equals(id)) {
             return MUZEI_THEME;
         }
@@ -59,7 +59,7 @@ public class Themes {
         public int darkRes;
         public String id;
 
-        private Theme(String id, int lightRes, int midRes, int darkRes) {
+        private Theme(final String id, final int lightRes, final int midRes, final int darkRes) {
             this.id = id;
             this.lightRes = lightRes;
             this.midRes = midRes;

@@ -62,7 +62,7 @@ public class ConfigHelper {
     private final Context mContext;
     private GoogleApiClient mGoogleApiClient;
 
-    public ConfigHelper(Context context) {
+    public ConfigHelper(final Context context) {
         mContext = context;
     }
 
@@ -141,7 +141,7 @@ public class ConfigHelper {
         disconnect();
     }
 
-    private void putConfigDataMapToDataLayer(DataMap configDataMap) {
+    private void putConfigDataMapToDataLayer(final DataMap configDataMap) {
         PutDataMapRequest dataMapRequest = PutDataMapRequest.create("/config");
         dataMapRequest.getDataMap().putDataMap("config", configDataMap);
 
@@ -182,7 +182,7 @@ public class ConfigHelper {
         return configDataMap;
     }
 
-    public static boolean isConfigPrefKey(String key) {
+    public static boolean isConfigPrefKey(final String key) {
         return BOOLEAN_CONFIG_KEYS.contains(key) || STRING_CONFIG_KEYS.contains(key);
     }
 
@@ -206,7 +206,7 @@ public class ConfigHelper {
         return dataMap;
     }
 
-    private void putConfigDataMapToSharedPrefs(DataMap dataMap) {
+    private void putConfigDataMapToSharedPrefs(final DataMap dataMap) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = sp.edit();
 

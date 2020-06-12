@@ -25,12 +25,12 @@ public class UpdateConfigIntentService extends IntentService {
         super("UpdateConfigIntentService");
     }
 
-    public static void startConfigChangeService(Context context) {
+    public static void startConfigChangeService(final Context context) {
         context.startService(new Intent(context, UpdateConfigIntentService.class));
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void onHandleIntent(final Intent intent) {
         ConfigHelper helper = new ConfigHelper(this);
         if (helper.connect()) {
             helper.putConfigSharedPrefsToDataLayer();

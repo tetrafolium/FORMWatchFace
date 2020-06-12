@@ -34,17 +34,17 @@ public class SimplePagerHelper {
     private List<Integer> mPageContentIds = new ArrayList<>();
     private List<CharSequence> mPageLabels = new ArrayList<>();
 
-    public SimplePagerHelper(Context context, ViewPager pager) {
+    public SimplePagerHelper(final Context context, final ViewPager pager) {
         mContext = context;
         mPager = pager;
         pager.setAdapter(mAdapter);
     }
 
-    public void addPage(int labelResId, int contentViewId) {
+    public void addPage(final int labelResId, final int contentViewId) {
         addPage(mContext.getString(labelResId), contentViewId);
     }
 
-    public void addPage(CharSequence label, int contentViewId) {
+    public void addPage(final CharSequence label, final int contentViewId) {
         mPageLabels.add(label);
         mPageContentIds.add(contentViewId);
         mAdapter.notifyDataSetChanged();
@@ -57,22 +57,22 @@ public class SimplePagerHelper {
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object o) {
+        public boolean isViewFromObject(final View view, final Object o) {
             return view == o;
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(final ViewGroup container, final int position) {
             return mPager.findViewById(mPageContentIds.get(position));
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
+        public CharSequence getPageTitle(final int position) {
             return mPageLabels.get(position);
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(final ViewGroup container, final int position, final Object object) {
             // No-op
         }
     };

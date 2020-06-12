@@ -39,7 +39,7 @@ import net.nurik.roman.formwatchface.common.MuzeiArtworkImageLoader;
  * </p>
  */
 public class WatchfaceArtworkImageLoader extends MuzeiArtworkImageLoader {
-    public WatchfaceArtworkImageLoader(Context context) {
+    public WatchfaceArtworkImageLoader(final Context context) {
         super(context);
     }
 
@@ -55,13 +55,13 @@ public class WatchfaceArtworkImageLoader extends MuzeiArtworkImageLoader {
         if (width > height) {
             float scalingFactor = metrics.heightPixels * 1f / height;
             loadedArtwork.bitmap = Bitmap.createScaledBitmap(
-                                       loadedArtwork.bitmap, (int)(scalingFactor * width),
+                                       loadedArtwork.bitmap, (int) (scalingFactor * width),
                                        metrics.heightPixels, true);
         } else {
             float scalingFactor = metrics.widthPixels * 1f / width;
             loadedArtwork.bitmap = Bitmap.createScaledBitmap(
                                        loadedArtwork.bitmap, metrics.widthPixels,
-                                       (int)(scalingFactor * height), true);
+                                       (int) (scalingFactor * height), true);
         }
         return loadedArtwork;
     }
