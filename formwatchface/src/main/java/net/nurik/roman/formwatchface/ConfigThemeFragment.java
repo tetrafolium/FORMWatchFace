@@ -33,106 +33,108 @@ import net.nurik.roman.formwatchface.common.config.Themes;
 import net.nurik.roman.formwatchface.common.config.UpdateConfigIntentService;
 
 public class ConfigThemeFragment extends Fragment {
-  private View mRootView;
-  private SharedPreferences mSharedPreferences;
+private View mRootView;
+private SharedPreferences mSharedPreferences;
 
-  public ConfigThemeFragment() {}
+public ConfigThemeFragment() {
+}
 
-  @Override
-  public void onCreate(final Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mSharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(getActivity());
-  }
+@Override
+public void onCreate(final Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	mSharedPreferences =
+		PreferenceManager.getDefaultSharedPreferences(getActivity());
+}
 
-  @Nullable
-  @Override
-  public View onCreateView(final LayoutInflater inflater,
-                           final ViewGroup container,
-                           final Bundle savedInstanceState) {
-    mRootView =
-        inflater.inflate(R.layout.config_theme_fragment, container, false);
+@Nullable
+@Override
+public View onCreateView(final LayoutInflater inflater,
+                         final ViewGroup container,
+                         final Bundle savedInstanceState) {
+	mRootView =
+		inflater.inflate(R.layout.config_theme_fragment, container, false);
 
-    WearableListView listView =
-        (WearableListView)mRootView.findViewById(R.id.wearable_list);
-    listView.setGreedyTouchMode(true);
+	WearableListView listView =
+		(WearableListView)mRootView.findViewById(R.id.wearable_list);
+	listView.setGreedyTouchMode(true);
 
-    final boolean hasMuzeiArtwork =
-        MuzeiArtworkImageLoader.hasMuzeiArtwork(getActivity());
+	final boolean hasMuzeiArtwork =
+		MuzeiArtworkImageLoader.hasMuzeiArtwork(getActivity());
 
-    listView.setAdapter(new WearableListView.Adapter() {
-      private static final int TYPE_NORMAL = 1;
-      private static final int TYPE_MUZEI = 2;
+	listView.setAdapter(new WearableListView.Adapter() {
+			private static final int TYPE_NORMAL = 1;
+			private static final int TYPE_MUZEI = 2;
 
-      @Override
-      public WearableListView.ViewHolder onCreateViewHolder(
-          final ViewGroup parent, final int viewType) {
-        return new ItemViewHolder(
-            inflater.inflate(R.layout.config_theme_color_item, parent, false));
-      }
+			@Override
+			public WearableListView.ViewHolder onCreateViewHolder(
+				final ViewGroup parent, final int viewType) {
+			        return new ItemViewHolder(
+					inflater.inflate(R.layout.config_theme_color_item, parent, false));
+			}
 
-      @Override
-      public int getItemViewType(final int position) {
-        return (position >= Themes.THEMES.length) ? TYPE_MUZEI : TYPE_NORMAL;
-      }
+			@Override
+			public int getItemViewType(final int position) {
+			        return (position >= Themes.THEMES.length) ? TYPE_MUZEI : TYPE_NORMAL;
+			}
 
-      @Override
-      public void onBindViewHolder(final WearableListView.ViewHolder holder,
-                                   final int position) {
-        ItemViewHolder itemHolder = (ItemViewHolder)holder;
-        Themes.Theme theme;
-        if (getItemViewType(position) == TYPE_MUZEI) {
-          theme = Themes.MUZEI_THEME;
-          itemHolder.circleView.setImageResource(R.drawable.muzei_icon);
-        } else {
-          theme = Themes.THEMES[position];
-          ((GradientDrawable)itemHolder.circleView.getDrawable())
-              .setColor(getResources().getColor(theme.darkRes));
-        }
-        holder.itemView.setTag(theme.id);
-      }
+			@Override
+			public void onBindViewHolder(final WearableListView.ViewHolder holder,
+			                             final int position) {
+			        ItemViewHolder itemHolder = (ItemViewHolder)holder;
+			        Themes.Theme theme;
+			        if (getItemViewType(position) == TYPE_MUZEI) {
+			                theme = Themes.MUZEI_THEME;
+			                itemHolder.circleView.setImageResource(R.drawable.muzei_icon);
+				} else {
+			                theme = Themes.THEMES[position];
+			                ((GradientDrawable)itemHolder.circleView.getDrawable())
+			                .setColor(getResources().getColor(theme.darkRes));
+				}
+			        holder.itemView.setTag(theme.id);
+			}
 
-      @Override
-      public int getItemCount() {
-        return Themes.THEMES.length + (hasMuzeiArtwork ? 1 : 0);
-      }
-    });
+			@Override
+			public int getItemCount() {
+			        return Themes.THEMES.length + (hasMuzeiArtwork ? 1 : 0);
+			}
+		});
 
-    listView.setClickListener(new WearableListView.ClickListener() {
-      @Override
-      public void onClick(final WearableListView.ViewHolder viewHolder) {
-        String theme = viewHolder.itemView.getTag().toString();
-        mSharedPreferences.edit()
-            .putString(ConfigHelper.KEY_THEME, theme)
-            .apply();
-        getActivity().finish();
-      }
+	listView.setClickListener(new WearableListView.ClickListener() {
+			@Override
+			public void onClick(final WearableListView.ViewHolder viewHolder) {
+			        String theme = viewHolder.itemView.getTag().toString();
+			        mSharedPreferences.edit()
+			        .putString(ConfigHelper.KEY_THEME, theme)
+			        .apply();
+			        getActivity().finish();
+			}
 
-      @Override
-      public void onTopEmptyRegionClick() {}
-    });
+			@Override
+			public void onTopEmptyRegionClick() {
+			}
+		});
 
-    int startingIndex = 0;
-    String theme = mSharedPreferences.getString(ConfigHelper.KEY_THEME, null);
-    if (theme != null) {
-      for (int i = 0; i < Themes.THEMES.length; i++) {
-        if (Themes.THEMES[i].id.equals(theme)) {
-          startingIndex = i;
-          break;
-        }
-      }
-    }
+	int startingIndex = 0;
+	String theme = mSharedPreferences.getString(ConfigHelper.KEY_THEME, null);
+	if (theme != null) {
+		for (int i = 0; i < Themes.THEMES.length; i++) {
+			if (Themes.THEMES[i].id.equals(theme)) {
+				startingIndex = i;
+				break;
+			}
+		}
+	}
 
-    listView.scrollToPosition(startingIndex);
-    return mRootView;
-  }
+	listView.scrollToPosition(startingIndex);
+	return mRootView;
+}
 
-  public static class ItemViewHolder extends WearableListView.ViewHolder {
-    private ImageView circleView;
+public static class ItemViewHolder extends WearableListView.ViewHolder {
+private ImageView circleView;
 
-    public ItemViewHolder(final View itemView) {
-      super(itemView);
-      circleView = (ImageView)itemView.findViewById(R.id.circle);
-    }
-  }
+public ItemViewHolder(final View itemView) {
+	super(itemView);
+	circleView = (ImageView)itemView.findViewById(R.id.circle);
+}
+}
 }

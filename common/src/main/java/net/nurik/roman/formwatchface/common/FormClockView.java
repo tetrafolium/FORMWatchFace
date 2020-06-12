@@ -32,176 +32,176 @@ import android.util.TypedValue;
 import android.view.View;
 
 public class FormClockView extends View {
-  private Handler mMainThreadHandler = new Handler();
-  private FormClockRenderer mHourMinRenderer;
-  private FormClockRenderer mSecondsRenderer;
+private Handler mMainThreadHandler = new Handler();
+private FormClockRenderer mHourMinRenderer;
+private FormClockRenderer mSecondsRenderer;
 
-  private int mWidth, mHeight;
+private int mWidth, mHeight;
 
-  private int mColor1, mColor2, mColor3;
+private int mColor1, mColor2, mColor3;
 
-  private FormClockRenderer.Options mHourMinOptions, mSecondsOptions;
+private FormClockRenderer.Options mHourMinOptions, mSecondsOptions;
 
-  public FormClockView(final Context context) {
-    super(context);
-    init(context, null, 0, 0);
-  }
+public FormClockView(final Context context) {
+	super(context);
+	init(context, null, 0, 0);
+}
 
-  public FormClockView(final Context context, final AttributeSet attrs) {
-    super(context, attrs);
-    init(context, attrs, 0, 0);
-  }
+public FormClockView(final Context context, final AttributeSet attrs) {
+	super(context, attrs);
+	init(context, attrs, 0, 0);
+}
 
-  public FormClockView(final Context context, final AttributeSet attrs,
-                       final int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-    init(context, attrs, defStyleAttr, 0);
-  }
+public FormClockView(final Context context, final AttributeSet attrs,
+                     final int defStyleAttr) {
+	super(context, attrs, defStyleAttr);
+	init(context, attrs, defStyleAttr, 0);
+}
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public FormClockView(final Context context, final AttributeSet attrs,
-                       final int defStyleAttr, final int defStyleRes) {
-    super(context, attrs, defStyleAttr, defStyleRes);
-    init(context, attrs, defStyleAttr, defStyleRes);
-  }
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+public FormClockView(final Context context, final AttributeSet attrs,
+                     final int defStyleAttr, final int defStyleRes) {
+	super(context, attrs, defStyleAttr, defStyleRes);
+	init(context, attrs, defStyleAttr, defStyleRes);
+}
 
-  private void init(final Context context, final AttributeSet attrs,
-                    final int defStyleAttr, final int defStyleRes) {
-    // Attribute initialization
-    final TypedArray a = context.obtainStyledAttributes(
-        attrs, R.styleable.FormClockView, defStyleAttr, defStyleRes);
+private void init(final Context context, final AttributeSet attrs,
+                  final int defStyleAttr, final int defStyleRes) {
+	// Attribute initialization
+	final TypedArray a = context.obtainStyledAttributes(
+		attrs, R.styleable.FormClockView, defStyleAttr, defStyleRes);
 
-    // Configure renderers
-    mHourMinOptions = new FormClockRenderer.Options();
-    mHourMinOptions.textSize = a.getDimension(
-        R.styleable.FormClockView_textSize,
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20,
-                                  getResources().getDisplayMetrics()));
-    mHourMinOptions.charSpacing = a.getDimension(
-        R.styleable.FormClockView_charSpacing,
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 6,
-                                  getResources().getDisplayMetrics()));
-    mHourMinOptions.is24hour = DateFormat.is24HourFormat(context);
+	// Configure renderers
+	mHourMinOptions = new FormClockRenderer.Options();
+	mHourMinOptions.textSize = a.getDimension(
+		R.styleable.FormClockView_textSize,
+		TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20,
+		                          getResources().getDisplayMetrics()));
+	mHourMinOptions.charSpacing = a.getDimension(
+		R.styleable.FormClockView_charSpacing,
+		TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 6,
+		                          getResources().getDisplayMetrics()));
+	mHourMinOptions.is24hour = DateFormat.is24HourFormat(context);
 
-    mHourMinOptions.glyphAnimAverageDelay = 500;
-    mHourMinOptions.glyphAnimDuration = 2000;
+	mHourMinOptions.glyphAnimAverageDelay = 500;
+	mHourMinOptions.glyphAnimDuration = 2000;
 
-    mSecondsOptions = new FormClockRenderer.Options(mHourMinOptions);
-    mSecondsOptions.onlySeconds = true;
-    mSecondsOptions.textSize /= 2;
-    mSecondsOptions.glyphAnimAverageDelay = 0;
-    mSecondsOptions.glyphAnimDuration = 750;
+	mSecondsOptions = new FormClockRenderer.Options(mHourMinOptions);
+	mSecondsOptions.onlySeconds = true;
+	mSecondsOptions.textSize /= 2;
+	mSecondsOptions.glyphAnimAverageDelay = 0;
+	mSecondsOptions.glyphAnimDuration = 750;
 
-    mColor1 = a.getColor(R.styleable.FormClockView_color1, 0xff000000);
-    mColor2 = a.getColor(R.styleable.FormClockView_color2, 0xff888888);
-    mColor3 = a.getColor(R.styleable.FormClockView_color3, 0xffcccccc);
+	mColor1 = a.getColor(R.styleable.FormClockView_color1, 0xff000000);
+	mColor2 = a.getColor(R.styleable.FormClockView_color2, 0xff888888);
+	mColor3 = a.getColor(R.styleable.FormClockView_color3, 0xffcccccc);
 
-    a.recycle();
+	a.recycle();
 
-    regenerateRenderers();
-  }
+	regenerateRenderers();
+}
 
-  private void regenerateRenderers() {
-    mHourMinRenderer = new FormClockRenderer(mHourMinOptions, null);
-    mSecondsRenderer = new FormClockRenderer(mSecondsOptions, null);
-    updatePaints();
-  }
+private void regenerateRenderers() {
+	mHourMinRenderer = new FormClockRenderer(mHourMinOptions, null);
+	mSecondsRenderer = new FormClockRenderer(mSecondsOptions, null);
+	updatePaints();
+}
 
-  private void updatePaints() {
-    FormClockRenderer.ClockPaints paints = new FormClockRenderer.ClockPaints();
-    Paint paint = new Paint();
-    paint.setAntiAlias(true);
+private void updatePaints() {
+	FormClockRenderer.ClockPaints paints = new FormClockRenderer.ClockPaints();
+	Paint paint = new Paint();
+	paint.setAntiAlias(true);
 
-    paint.setColor(mColor1);
-    paints.fills[0] = paint;
+	paint.setColor(mColor1);
+	paints.fills[0] = paint;
 
-    paint = new Paint(paint);
-    paint.setColor(mColor2);
-    paints.fills[1] = paint;
+	paint = new Paint(paint);
+	paint.setColor(mColor2);
+	paints.fills[1] = paint;
 
-    paint = new Paint(paint);
-    paint.setColor(mColor3);
-    paints.fills[2] = paint;
+	paint = new Paint(paint);
+	paint.setColor(mColor3);
+	paints.fills[2] = paint;
 
-    mHourMinRenderer.setPaints(paints);
-    mSecondsRenderer.setPaints(paints);
-    invalidate();
-  }
+	mHourMinRenderer.setPaints(paints);
+	mSecondsRenderer.setPaints(paints);
+	invalidate();
+}
 
-  public void setColors(final int color1, final int color2, final int color3) {
-    mColor1 = color1;
-    mColor2 = color2;
-    mColor3 = color3;
-    updatePaints();
-  }
+public void setColors(final int color1, final int color2, final int color3) {
+	mColor1 = color1;
+	mColor2 = color2;
+	mColor3 = color3;
+	updatePaints();
+}
 
-  @Override
-  protected void onSizeChanged(final int w, final int h, final int oldw,
-                               final int oldh) {
-    super.onSizeChanged(w, h, oldw, oldh);
-    mWidth = w;
-    mHeight = h;
-  }
+@Override
+protected void onSizeChanged(final int w, final int h, final int oldw,
+                             final int oldh) {
+	super.onSizeChanged(w, h, oldw, oldh);
+	mWidth = w;
+	mHeight = h;
+}
 
-  @Override
-  protected void onDraw(final Canvas canvas) {
-    super.onDraw(canvas);
+@Override
+protected void onDraw(final Canvas canvas) {
+	super.onDraw(canvas);
 
-    mHourMinRenderer.updateTime();
-    PointF hourMinSize = mHourMinRenderer.measure(true);
-    mHourMinRenderer.draw(canvas, (mWidth - hourMinSize.x) / 2,
-                          (mHeight - hourMinSize.y) / 2, true, false);
+	mHourMinRenderer.updateTime();
+	PointF hourMinSize = mHourMinRenderer.measure(true);
+	mHourMinRenderer.draw(canvas, (mWidth - hourMinSize.x) / 2,
+	                      (mHeight - hourMinSize.y) / 2, true, false);
 
-    mSecondsRenderer.updateTime();
-    PointF secondsSize = mSecondsRenderer.measure(true);
-    mSecondsRenderer.draw(
-        canvas, (mWidth + hourMinSize.x) / 2 - secondsSize.x,
-        (mHeight + hourMinSize.y) / 2 +
-            TypedValue.applyDimension(5, TypedValue.COMPLEX_UNIT_DIP,
-                                      getResources().getDisplayMetrics()),
-        true, false);
+	mSecondsRenderer.updateTime();
+	PointF secondsSize = mSecondsRenderer.measure(true);
+	mSecondsRenderer.draw(
+		canvas, (mWidth + hourMinSize.x) / 2 - secondsSize.x,
+		(mHeight + hourMinSize.y) / 2 +
+		TypedValue.applyDimension(5, TypedValue.COMPLEX_UNIT_DIP,
+		                          getResources().getDisplayMetrics()),
+		true, false);
 
-    long timeToNextSecondsAnimation = mSecondsRenderer.timeToNextAnimation();
-    long timeToNextHourMinAnimation = mHourMinRenderer.timeToNextAnimation();
-    if (timeToNextHourMinAnimation < 0 || timeToNextSecondsAnimation < 0) {
-      postInvalidateOnAnimation();
-    } else {
-      postInvalidateDelayed(
-          Math.min(timeToNextHourMinAnimation, timeToNextSecondsAnimation));
-    }
-  }
+	long timeToNextSecondsAnimation = mSecondsRenderer.timeToNextAnimation();
+	long timeToNextHourMinAnimation = mHourMinRenderer.timeToNextAnimation();
+	if (timeToNextHourMinAnimation < 0 || timeToNextSecondsAnimation < 0) {
+		postInvalidateOnAnimation();
+	} else {
+		postInvalidateDelayed(
+			Math.min(timeToNextHourMinAnimation, timeToNextSecondsAnimation));
+	}
+}
 
-  @Override
-  protected void onAttachedToWindow() {
-    super.onAttachedToWindow();
-    registerSystemSettingsListener();
-  }
+@Override
+protected void onAttachedToWindow() {
+	super.onAttachedToWindow();
+	registerSystemSettingsListener();
+}
 
-  @Override
-  protected void onDetachedFromWindow() {
-    super.onDetachedFromWindow();
-    unregisterSystemSettingsListener();
-  }
+@Override
+protected void onDetachedFromWindow() {
+	super.onDetachedFromWindow();
+	unregisterSystemSettingsListener();
+}
 
-  private void registerSystemSettingsListener() {
-    getContext().getContentResolver().registerContentObserver(
-        Settings.System.getUriFor(Settings.System.TIME_12_24), false,
-        mSystemSettingsObserver);
-  }
+private void registerSystemSettingsListener() {
+	getContext().getContentResolver().registerContentObserver(
+		Settings.System.getUriFor(Settings.System.TIME_12_24), false,
+		mSystemSettingsObserver);
+}
 
-  private void unregisterSystemSettingsListener() {
-    getContext().getContentResolver().unregisterContentObserver(
-        mSystemSettingsObserver);
-  }
+private void unregisterSystemSettingsListener() {
+	getContext().getContentResolver().unregisterContentObserver(
+		mSystemSettingsObserver);
+}
 
-  private ContentObserver mSystemSettingsObserver =
-      new ContentObserver(mMainThreadHandler) {
-        @Override
-        public void onChange(final boolean selfChange) {
-          super.onChange(selfChange);
-          mHourMinOptions.is24hour = DateFormat.is24HourFormat(getContext());
-          mSecondsOptions.is24hour = mHourMinOptions.is24hour;
-          regenerateRenderers();
-        }
-      };
+private ContentObserver mSystemSettingsObserver =
+	new ContentObserver(mMainThreadHandler) {
+	@Override
+	public void onChange(final boolean selfChange) {
+		super.onChange(selfChange);
+		mHourMinOptions.is24hour = DateFormat.is24HourFormat(getContext());
+		mSecondsOptions.is24hour = mHourMinOptions.is24hour;
+		regenerateRenderers();
+	}
+};
 }

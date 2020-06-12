@@ -28,77 +28,79 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 
 public class ConfigComplicationsFragment extends Fragment {
-  private static final String[] PREF_KEYS = {
-      "pref_show_notification_count",
-      "pref_show_date",
-      "pref_show_seconds",
-  };
+private static final String[] PREF_KEYS = {
+	"pref_show_notification_count",
+	"pref_show_date",
+	"pref_show_seconds",
+};
 
-  private static final int[] PREF_TITLE_IDS = {
-      R.string.pref_show_notification_count_title,
-      R.string.pref_show_date_title, R.string.pref_show_seconds_title};
+private static final int[] PREF_TITLE_IDS = {
+	R.string.pref_show_notification_count_title,
+	R.string.pref_show_date_title, R.string.pref_show_seconds_title
+};
 
-  private View mRootView;
-  private SharedPreferences mSharedPreferences;
+private View mRootView;
+private SharedPreferences mSharedPreferences;
 
-  public ConfigComplicationsFragment() {}
+public ConfigComplicationsFragment() {
+}
 
-  @Override
-  public void onCreate(final Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mSharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(getActivity());
-  }
+@Override
+public void onCreate(final Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	mSharedPreferences =
+		PreferenceManager.getDefaultSharedPreferences(getActivity());
+}
 
-  @Nullable
-  @Override
-  public View onCreateView(final LayoutInflater inflater,
-                           final ViewGroup container,
-                           final Bundle savedInstanceState) {
-    mRootView = inflater.inflate(R.layout.config_complications_fragment,
-                                 container, false);
-    rebuildComplicationsList();
-    return mRootView;
-  }
+@Nullable
+@Override
+public View onCreateView(final LayoutInflater inflater,
+                         final ViewGroup container,
+                         final Bundle savedInstanceState) {
+	mRootView = inflater.inflate(R.layout.config_complications_fragment,
+	                             container, false);
+	rebuildComplicationsList();
+	return mRootView;
+}
 
-  private void rebuildComplicationsList() {
-    ViewGroup complicationsContainer =
-        (ViewGroup)mRootView.findViewById(R.id.complications_list);
-    complicationsContainer.removeAllViews();
+private void rebuildComplicationsList() {
+	ViewGroup complicationsContainer =
+		(ViewGroup)mRootView.findViewById(R.id.complications_list);
+	complicationsContainer.removeAllViews();
 
-    LayoutInflater inflater = LayoutInflater.from(getActivity());
+	LayoutInflater inflater = LayoutInflater.from(getActivity());
 
-    for (int i = 0; i < PREF_KEYS.length; i++) {
-      final String prefKey = PREF_KEYS[i];
+	for (int i = 0; i < PREF_KEYS.length; i++) {
+		final String prefKey = PREF_KEYS[i];
 
-      ViewGroup itemContainer = (ViewGroup)inflater.inflate(
-          R.layout.config_complications_item, complicationsContainer, false);
-      final CheckedTextView titleView =
-          (CheckedTextView)itemContainer.findViewById(android.R.id.text1);
-      final View checkmarkView = itemContainer.findViewById(R.id.checkmark);
+		ViewGroup itemContainer = (ViewGroup)inflater.inflate(
+			R.layout.config_complications_item, complicationsContainer, false);
+		final CheckedTextView titleView =
+			(CheckedTextView)itemContainer.findViewById(android.R.id.text1);
+		final View checkmarkView = itemContainer.findViewById(R.id.checkmark);
 
-      titleView.setText(PREF_TITLE_IDS[i]);
-      boolean isPrefOn = mSharedPreferences.getBoolean(prefKey, false);
+		titleView.setText(PREF_TITLE_IDS[i]);
+		boolean isPrefOn = mSharedPreferences.getBoolean(prefKey, false);
 
-      checkmarkView.setVisibility(isPrefOn ? View.VISIBLE : View.INVISIBLE);
-      titleView.setChecked(isPrefOn);
+		checkmarkView.setVisibility(isPrefOn ? View.VISIBLE : View.INVISIBLE);
+		titleView.setChecked(isPrefOn);
 
-      itemContainer.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(final View v) {
-          boolean isPrefOn = mSharedPreferences.getBoolean(prefKey, false);
-          mSharedPreferences.edit().putBoolean(prefKey, !isPrefOn).apply();
-          rebuildComplicationsList();
-        }
-      });
+		itemContainer.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(final View v) {
+				        boolean isPrefOn = mSharedPreferences.getBoolean(prefKey, false);
+				        mSharedPreferences.edit().putBoolean(prefKey, !isPrefOn).apply();
+				        rebuildComplicationsList();
+				}
+			});
 
-      complicationsContainer.addView(itemContainer);
-    }
-  }
+		complicationsContainer.addView(itemContainer);
+	}
+}
 
-  public void update() {
-    if (mRootView != null) {
-      rebuildComplicationsList();
-    }
-  }
+public void update() {
+	if (mRootView != null) {
+		rebuildComplicationsList();
+	}
+}
 }

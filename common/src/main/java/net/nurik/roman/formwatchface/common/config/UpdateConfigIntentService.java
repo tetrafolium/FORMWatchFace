@@ -21,18 +21,20 @@ import android.content.Context;
 import android.content.Intent;
 
 public class UpdateConfigIntentService extends IntentService {
-  public UpdateConfigIntentService() { super("UpdateConfigIntentService"); }
+public UpdateConfigIntentService() {
+	super("UpdateConfigIntentService");
+}
 
-  public static void startConfigChangeService(final Context context) {
-    context.startService(new Intent(context, UpdateConfigIntentService.class));
-  }
+public static void startConfigChangeService(final Context context) {
+	context.startService(new Intent(context, UpdateConfigIntentService.class));
+}
 
-  @Override
-  protected void onHandleIntent(final Intent intent) {
-    ConfigHelper helper = new ConfigHelper(this);
-    if (helper.connect()) {
-      helper.putConfigSharedPrefsToDataLayer();
-      helper.disconnect();
-    }
-  }
+@Override
+protected void onHandleIntent(final Intent intent) {
+	ConfigHelper helper = new ConfigHelper(this);
+	if (helper.connect()) {
+		helper.putConfigSharedPrefsToDataLayer();
+		helper.disconnect();
+	}
+}
 }

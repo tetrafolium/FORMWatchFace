@@ -38,28 +38,30 @@ import net.nurik.roman.formwatchface.common.MuzeiArtworkImageLoader;
  * </p>
  */
 public class WatchfaceArtworkImageLoader extends MuzeiArtworkImageLoader {
-  public WatchfaceArtworkImageLoader(final Context context) { super(context); }
+public WatchfaceArtworkImageLoader(final Context context) {
+	super(context);
+}
 
-  @Override
-  public LoadedArtwork loadInBackground() {
-    LoadedArtwork loadedArtwork = super.loadInBackground();
-    if (loadedArtwork == null) {
-      return null;
-    }
-    DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-    int width = loadedArtwork.bitmap.getWidth();
-    int height = loadedArtwork.bitmap.getHeight();
-    if (width > height) {
-      float scalingFactor = metrics.heightPixels * 1f / height;
-      loadedArtwork.bitmap = Bitmap.createScaledBitmap(
-          loadedArtwork.bitmap, (int)(scalingFactor * width),
-          metrics.heightPixels, true);
-    } else {
-      float scalingFactor = metrics.widthPixels * 1f / width;
-      loadedArtwork.bitmap =
-          Bitmap.createScaledBitmap(loadedArtwork.bitmap, metrics.widthPixels,
-                                    (int)(scalingFactor * height), true);
-    }
-    return loadedArtwork;
-  }
+@Override
+public LoadedArtwork loadInBackground() {
+	LoadedArtwork loadedArtwork = super.loadInBackground();
+	if (loadedArtwork == null) {
+		return null;
+	}
+	DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+	int width = loadedArtwork.bitmap.getWidth();
+	int height = loadedArtwork.bitmap.getHeight();
+	if (width > height) {
+		float scalingFactor = metrics.heightPixels * 1f / height;
+		loadedArtwork.bitmap = Bitmap.createScaledBitmap(
+			loadedArtwork.bitmap, (int)(scalingFactor * width),
+			metrics.heightPixels, true);
+	} else {
+		float scalingFactor = metrics.widthPixels * 1f / width;
+		loadedArtwork.bitmap =
+			Bitmap.createScaledBitmap(loadedArtwork.bitmap, metrics.widthPixels,
+			                          (int)(scalingFactor * height), true);
+	}
+	return loadedArtwork;
+}
 }
