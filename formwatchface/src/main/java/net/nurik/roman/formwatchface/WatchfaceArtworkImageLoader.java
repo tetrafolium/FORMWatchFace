@@ -55,13 +55,13 @@ public class WatchfaceArtworkImageLoader extends MuzeiArtworkImageLoader {
         if (width > height) {
             float scalingFactor = metrics.heightPixels * 1f / height;
             loadedArtwork.bitmap = Bitmap.createScaledBitmap(
-                    loadedArtwork.bitmap, (int)(scalingFactor * width),
-                    metrics.heightPixels, true);
+                                       loadedArtwork.bitmap, (int)(scalingFactor * width),
+                                       metrics.heightPixels, true);
         } else {
             float scalingFactor = metrics.widthPixels * 1f / width;
             loadedArtwork.bitmap = Bitmap.createScaledBitmap(
-                    loadedArtwork.bitmap, metrics.widthPixels,
-                    (int)(scalingFactor * height), true);
+                                       loadedArtwork.bitmap, metrics.widthPixels,
+                                       (int)(scalingFactor * height), true);
         }
         return loadedArtwork;
     }

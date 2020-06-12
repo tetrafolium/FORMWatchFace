@@ -56,7 +56,7 @@ public class MuzeiArtworkImageLoader extends AsyncTaskLoader<MuzeiArtworkImageLo
                 }
             };
             getContext().getContentResolver().registerContentObserver(
-                    MuzeiContract.Artwork.CONTENT_URI, true, mContentObserver);
+                MuzeiContract.Artwork.CONTENT_URI, true, mContentObserver);
         }
         forceLoad();
     }
@@ -79,12 +79,12 @@ public class MuzeiArtworkImageLoader extends AsyncTaskLoader<MuzeiArtworkImageLo
     private Pair<Integer, Integer> extractColors(Bitmap bitmap) {
         Palette palette = Palette.generate(bitmap, 16);
         int midColor = palette.getVibrantColor(
-                palette.getDarkVibrantColor(
-                        palette.getMutedColor(
-                                palette.getDarkMutedColor(Color.GRAY))));
+                           palette.getDarkVibrantColor(
+                               palette.getMutedColor(
+                                   palette.getDarkMutedColor(Color.GRAY))));
         int lightColor = palette.getLightMutedColor(
-                palette.getLightVibrantColor(
-                        palette.getMutedColor(Color.BLACK)));
+                             palette.getLightVibrantColor(
+                                 palette.getMutedColor(Color.BLACK)));
         if (lightColor == Color.BLACK) {
             lightColor = lighten(midColor, 0.2f);
         }

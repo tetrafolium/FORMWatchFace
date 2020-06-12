@@ -50,14 +50,14 @@ public class ConfigHelper {
     public static final String KEY_SHOW_SECONDS = "pref_show_seconds";
 
     private static final Set<String> STRING_CONFIG_KEYS = new HashSet<>(Arrays.asList(
-            KEY_THEME
-    ));
+                KEY_THEME
+            ));
 
     private static final Set<String> BOOLEAN_CONFIG_KEYS = new HashSet<>(Arrays.asList(
-            KEY_SHOW_NOTIFICATION_COUNT,
-            KEY_SHOW_DATE,
-            KEY_SHOW_SECONDS
-    ));
+                KEY_SHOW_NOTIFICATION_COUNT,
+                KEY_SHOW_DATE,
+                KEY_SHOW_SECONDS
+            ));
 
     private final Context mContext;
     private GoogleApiClient mGoogleApiClient;
@@ -77,8 +77,8 @@ public class ConfigHelper {
         }
 
         mGoogleApiClient = new GoogleApiClient.Builder(mContext)
-                .addApi(Wearable.API)
-                .build();
+        .addApi(Wearable.API)
+        .build();
         ConnectionResult connectionResult = mGoogleApiClient.blockingConnect(5, TimeUnit.SECONDS);
         if (!connectionResult.isSuccess()) {
             Log.e(TAG, "Failed to connect to GoogleApiClient: " + connectionResult.getErrorCode());

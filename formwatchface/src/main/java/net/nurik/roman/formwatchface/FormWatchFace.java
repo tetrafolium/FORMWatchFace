@@ -170,7 +170,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
             mNormalPaints.date = new Paint(paint);
             mNormalPaints.date.setTypeface(mDateTypeface);
             mNormalPaints.date.setTextSize(
-                    getResources().getDimensionPixelSize(R.dimen.seconds_clock_height));
+                getResources().getDimensionPixelSize(R.dimen.seconds_clock_height));
 
             rebuildAmbientPaints();
 
@@ -215,14 +215,14 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         private void updateWatchFaceStyle() {
             setWatchFaceStyle(new WatchFaceStyle.Builder(FormWatchFace.this)
-                    .setBackgroundVisibility(WatchFaceStyle.BACKGROUND_VISIBILITY_INTERRUPTIVE)
-                    .setCardPeekMode(WatchFaceStyle.PEEK_MODE_VARIABLE)
-                    .setPeekOpacityMode(WatchFaceStyle.PEEK_OPACITY_MODE_TRANSLUCENT)
-                    .setStatusBarGravity(Gravity.TOP | Gravity.CENTER)
-                    .setHotwordIndicatorGravity(Gravity.TOP | Gravity.CENTER)
-                    .setViewProtection(0)
-                    .setShowUnreadCountIndicator(mShowNotificationCount && !mMute)
-                    .build());
+                              .setBackgroundVisibility(WatchFaceStyle.BACKGROUND_VISIBILITY_INTERRUPTIVE)
+                              .setCardPeekMode(WatchFaceStyle.PEEK_MODE_VARIABLE)
+                              .setPeekOpacityMode(WatchFaceStyle.PEEK_OPACITY_MODE_TRANSLUCENT)
+                              .setStatusBarGravity(Gravity.TOP | Gravity.CENTER)
+                              .setHotwordIndicatorGravity(Gravity.TOP | Gravity.CENTER)
+                              .setViewProtection(0)
+                              .setShowUnreadCountIndicator(mShowNotificationCount && !mMute)
+                              .build());
         }
 
         @Override
@@ -292,7 +292,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
         }
 
         private Loader.OnLoadCompleteListener<LoadedArtwork> mMuzeiLoadCompleteListener
-                = new Loader.OnLoadCompleteListener<LoadedArtwork>() {
+        = new Loader.OnLoadCompleteListener<LoadedArtwork>() {
             public void onLoadComplete(Loader<LoadedArtwork> loader, LoadedArtwork data) {
                 if (data != null) {
                     mMuzeiLoadedArtwork = data;
@@ -305,8 +305,8 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         private void registerSystemSettingsListener() {
             getContentResolver().registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.TIME_12_24),
-                    false, mSystemSettingsObserver);
+                Settings.System.getUriFor(Settings.System.TIME_12_24),
+                false, mSystemSettingsObserver);
         }
 
         private void unregisterSystemSettingsListener() {
@@ -324,16 +324,16 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         private void registerSharedPrefsListener() {
             PreferenceManager.getDefaultSharedPreferences(FormWatchFace.this)
-                    .registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+            .registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
         }
 
         private void unregisterSharedPrefsListener() {
             PreferenceManager.getDefaultSharedPreferences(FormWatchFace.this)
-                    .unregisterOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+            .unregisterOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
         }
 
         private SharedPreferences.OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener
-                = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 if (ConfigHelper.isConfigPrefKey(key)) {
@@ -373,7 +373,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
             rebuildAmbientPaints();
 
             LOGD(TAG, "onPropertiesChanged: burn-in protection = " + mBurnInProtection
-                    + ", low-bit ambient = " + mLowBitAmbient);
+                 + ", low-bit ambient = " + mLowBitAmbient);
         }
 
         private void rebuildAmbientPaints() {
@@ -392,11 +392,11 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5,
-                        getResources().getDisplayMetrics()));
+                                     getResources().getDisplayMetrics()));
                 paint.setStrokeJoin(Paint.Join.BEVEL);
                 paint.setColor(Color.WHITE);
                 mAmbientPaints.strokes[0] = mAmbientPaints.strokes[1] = mAmbientPaints.strokes[2]
-                        = paint;
+                                            = paint;
                 mAmbientPaints.hasStroke = true;
 
             } else {
@@ -416,7 +416,7 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
             mAmbientPaints.date.setTypeface(mDateTypeface);
             mAmbientPaints.date.setTextSize(
-                    getResources().getDimensionPixelSize(R.dimen.seconds_clock_height));
+                getResources().getDimensionPixelSize(R.dimen.seconds_clock_height));
         }
 
         @Override
@@ -428,15 +428,15 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
                 mBottomBoundAnimator.cancel();
                 mBottomBoundAnimator.setFloatValues(
-                        (Float) mBottomBoundAnimator.getAnimatedValue(),
-                        mCardBounds.top > 0 ? mCardBounds.top : mHeight);
+                    (Float) mBottomBoundAnimator.getAnimatedValue(),
+                    mCardBounds.top > 0 ? mCardBounds.top : mHeight);
                 mBottomBoundAnimator.setDuration(200);
                 mBottomBoundAnimator.start();
 
                 mSecondsAlphaAnimator.cancel();
                 mSecondsAlphaAnimator.setFloatValues(
-                        (Float) mSecondsAlphaAnimator.getAnimatedValue(),
-                        mCardBounds.top > 0 ? 0f : 1f);
+                    (Float) mSecondsAlphaAnimator.getAnimatedValue(),
+                    mCardBounds.top > 0 ? 0f : 1f);
                 mSecondsAlphaAnimator.setDuration(200);
                 mSecondsAlphaAnimator.start();
 
@@ -513,11 +513,11 @@ public class FormWatchFace extends CanvasWatchFaceService {
                     float cy = bottom / 2;
                     float maxRadius = MathUtil.maxDistanceToCorner(0, 0, mWidth, mHeight, cx, cy);
                     float radius = interpolate(
-                            decelerate3(constrain(
-                                    (currentTimeMillis - mUpdateThemeStartAnimTimeMillis)
-                                            * 1f / UPDATE_THEME_ANIM_DURATION,
-                                    0 , 1)),
-                            0 , maxRadius);
+                                       decelerate3(constrain(
+                                                       (currentTimeMillis - mUpdateThemeStartAnimTimeMillis)
+                                                       * 1f / UPDATE_THEME_ANIM_DURATION,
+                                                       0, 1)),
+                                       0, maxRadius);
 
                     mTempRectF.set(cx - radius, cy - radius, cx + radius, cy + radius);
                     mUpdateThemeClipPath.addOval(mTempRectF, Path.Direction.CW);
@@ -538,8 +538,8 @@ public class FormWatchFace extends CanvasWatchFaceService {
                 float secondsOpacity = (Float) mSecondsAlphaAnimator.getAnimatedValue();
                 boolean showingSeconds = mShowSeconds && secondsOpacity > 0;
                 long timeToNextSecondsAnimation = showingSeconds
-                        ? mSecondsRenderer.timeToNextAnimation()
-                        : 10000;
+                                                  ? mSecondsRenderer.timeToNextAnimation()
+                                                  : 10000;
                 long timeToNextHourMinAnimation = mHourMinRenderer.timeToNextAnimation();
                 if (timeToNextHourMinAnimation < 0 || timeToNextSecondsAnimation < 0) {
                     postInvalidate();
@@ -552,8 +552,8 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
         private boolean isAnimatingThemeChange() {
             return mAnimateFromTheme != null
-                    && System.currentTimeMillis() - mUpdateThemeStartAnimTimeMillis
-                    < UPDATE_THEME_ANIM_DURATION;
+                   && System.currentTimeMillis() - mUpdateThemeStartAnimTimeMillis
+                   < UPDATE_THEME_ANIM_DURATION;
         }
 
         private void updateDateStr() {
@@ -591,9 +591,9 @@ public class FormWatchFace extends CanvasWatchFaceService {
             } else if (mDrawMuzeiBitmap && mMuzeiLoadedArtwork != null) {
                 canvas.drawRect(0, 0, mWidth, mHeight, mAmbientBackgroundPaint);
                 canvas.drawBitmap(mMuzeiLoadedArtwork.bitmap,
-                        (mDisplayMetricsWidth - mMuzeiLoadedArtwork.bitmap.getWidth()) / 2,
-                        (mDisplayMetricsHeight - mMuzeiLoadedArtwork.bitmap.getHeight()) / 2,
-                        mMuzeiArtworkPaint);
+                                  (mDisplayMetricsWidth - mMuzeiLoadedArtwork.bitmap.getWidth()) / 2,
+                                  (mDisplayMetricsHeight - mMuzeiLoadedArtwork.bitmap.getHeight()) / 2,
+                                  mMuzeiArtworkPaint);
             } else {
                 canvas.drawRect(0, 0, mWidth, mHeight, mBackgroundPaint);
             }
@@ -602,9 +602,9 @@ public class FormWatchFace extends CanvasWatchFaceService {
 
             PointF hourMinSize = mHourMinRenderer.measure(allowAnimate);
             mHourMinRenderer.draw(canvas,
-                    (mWidth - hourMinSize.x) / 2, (bottom - hourMinSize.y) / 2,
-                    allowAnimate,
-                    offscreenGlyphs);
+                                  (mWidth - hourMinSize.x) / 2, (bottom - hourMinSize.y) / 2,
+                                  allowAnimate,
+                                  offscreenGlyphs);
 
             float clockSecondsSpacing = getResources().getDimension(R.dimen.clock_seconds_spacing);
             float secondsOpacity = (Float) mSecondsAlphaAnimator.getAnimatedValue();
@@ -613,13 +613,13 @@ public class FormWatchFace extends CanvasWatchFaceService {
                 int sc = -1;
                 if (secondsOpacity != 1) {
                     sc = canvas.saveLayerAlpha(0, 0, canvas.getWidth(), canvas.getHeight(),
-                            (int) (secondsOpacity * 255));
+                                               (int) (secondsOpacity * 255));
                 }
                 mSecondsRenderer.draw(canvas,
-                        (mWidth + hourMinSize.x) / 2 - secondsSize.x,
-                        (bottom + hourMinSize.y) / 2 + clockSecondsSpacing,
-                        allowAnimate,
-                        offscreenGlyphs);
+                                      (mWidth + hourMinSize.x) / 2 - secondsSize.x,
+                                      (bottom + hourMinSize.y) / 2 + clockSecondsSpacing,
+                                      allowAnimate,
+                                      offscreenGlyphs);
                 if (sc >= 0) {
                     canvas.restoreToCount(sc);
                 }
@@ -632,10 +632,10 @@ public class FormWatchFace extends CanvasWatchFaceService {
                     x = (mWidth - paint.measureText(mDateStr)) / 2;
                 }
                 canvas.drawText(
-                        mDateStr,
-                        x,
-                        (bottom + hourMinSize.y) / 2 + clockSecondsSpacing - paint.ascent(),
-                                paint);
+                    mDateStr,
+                    x,
+                    (bottom + hourMinSize.y) / 2 + clockSecondsSpacing - paint.ascent(),
+                    paint);
             }
         }
 

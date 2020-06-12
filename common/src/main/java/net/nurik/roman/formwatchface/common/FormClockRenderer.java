@@ -105,9 +105,9 @@ public class FormClockRenderer {
         }
 
         mOffsGlyphBitmap = Bitmap.createBitmap(
-                mOffsGlyphBitmapUnpaddedSize * 2,
-                mOffsGlyphBitmapUnpaddedSize * 2,
-                Bitmap.Config.ARGB_8888);
+                               mOffsGlyphBitmapUnpaddedSize * 2,
+                               mOffsGlyphBitmapUnpaddedSize * 2,
+                               Bitmap.Config.ARGB_8888);
         mOffsGlyphCanvas = new Canvas(mOffsGlyphBitmap);
         mOffsGlyphPaint = new Paint();
         mOffsGlyphPaint.setFilterBitmap(true);
@@ -187,7 +187,7 @@ public class FormClockRenderer {
         }
 
         mAnimDuration = mAnimatedGlyphIndexCount * mOptions.glyphAnimAverageDelay
-                + mOptions.glyphAnimDuration;
+                        + mOptions.glyphAnimDuration;
         mAnimTime = 0;
     }
 
@@ -223,7 +223,7 @@ public class FormClockRenderer {
             cb.visitGlyph(glyph, t, rectF);
 
             x += Math.floor(glyphWidth +
-                    (i >= 0 ? mOptions.charSpacing : 0));
+                            (i >= 0 ? mOptions.charSpacing : 0));
         }
     }
 
@@ -250,11 +250,11 @@ public class FormClockRenderer {
                     mOffsGlyphBitmap.eraseColor(Color.TRANSPARENT);
                     sc = mOffsGlyphCanvas.save();
                     mOffsGlyphCanvas.translate(
-                            mOffsGlyphBitmapUnpaddedSize / 2,
-                            mOffsGlyphBitmapUnpaddedSize / 2);
+                        mOffsGlyphBitmapUnpaddedSize / 2,
+                        mOffsGlyphBitmapUnpaddedSize / 2);
                     mOffsGlyphCanvas.scale(
-                            mOffsGlyphBitmapUnpaddedSize * 1f / Font.DRAWHEIGHT,
-                            mOffsGlyphBitmapUnpaddedSize * 1f / Font.DRAWHEIGHT);
+                        mOffsGlyphBitmapUnpaddedSize * 1f / Font.DRAWHEIGHT,
+                        mOffsGlyphBitmapUnpaddedSize * 1f / Font.DRAWHEIGHT);
                     glyph.draw(glyphAnimProgress);
                     mOffsGlyphCanvas.restoreToCount(sc);
                 }
@@ -266,7 +266,7 @@ public class FormClockRenderer {
                 sc = canvas.save();
                 canvas.translate(rect.left, rect.top);
                 float scale = mOptions.textSize /
-                        (offscreenGlyphs ? mOffsGlyphBitmapUnpaddedSize : Font.DRAWHEIGHT);
+                              (offscreenGlyphs ? mOffsGlyphBitmapUnpaddedSize : Font.DRAWHEIGHT);
                 canvas.scale(scale, scale);
                 if (offscreenGlyphs) {
                     canvas.translate(-mOffsGlyphBitmapUnpaddedSize / 2, -mOffsGlyphBitmapUnpaddedSize / 2);
@@ -300,18 +300,18 @@ public class FormClockRenderer {
         float glyphStartAnimTime = 0;
         if (mAnimatedGlyphIndexCount > 1) {
             glyphStartAnimTime = interpolate(accelerate5(
-                            indexIntoAnimatedGlyphs * 1f / (mAnimatedGlyphIndexCount - 1)),
-                    0, mAnimDuration - mOptions.glyphAnimDuration);
+                                                 indexIntoAnimatedGlyphs * 1f / (mAnimatedGlyphIndexCount - 1)),
+                                             0, mAnimDuration - mOptions.glyphAnimDuration);
         }
         return progress(mAnimTime, glyphStartAnimTime, glyphStartAnimTime
-                + mOptions.glyphAnimDuration);
+                        + mOptions.glyphAnimDuration);
     }
 
     String secondsString(Calendar c) {
         int s = c.get(Calendar.SECOND);
         return ":"
-                + (s < 10 ? "0" : "")
-                + s;
+               + (s < 10 ? "0" : "")
+               + s;
     }
 
     String hourMinString(Calendar c) {
@@ -321,9 +321,9 @@ public class FormClockRenderer {
         }
         int m = c.get(Calendar.MINUTE);
         return (h < 10 ? " " : "")
-                + h
-                + ":" + (m < 10 ? "0" : "")
-                + m;
+               + h
+               + ":" + (m < 10 ? "0" : "")
+               + m;
     }
 
     private interface LayoutPassCallback {
@@ -388,7 +388,9 @@ public class FormClockRenderer {
 
         public Glyph getGlyph(String key) {
             Glyph glyph = mGlyphMap.get(key);
-            if (glyph == null) { return mGlyphMap.get("0_1"); }
+            if (glyph == null) {
+                return mGlyphMap.get("0_1");
+            }
             return glyph;
         }
 
@@ -507,19 +509,19 @@ public class FormClockRenderer {
                     // 1
                     if (d2 > 0) {
                         drawRect(
-                                interpolate(d2, 28, 0), interpolate(d2, 72, 0), 100, interpolate(d2, 144, 48),
-                                COLOR_2);
+                            interpolate(d2, 28, 0), interpolate(d2, 72, 0), 100, interpolate(d2, 144, 48),
+                            COLOR_2);
 
                         drawRect(28, interpolate(d2, 144, 48), 100, 144,
-                                COLOR_3);
+                                 COLOR_3);
                     }
                 }
 
                 @Override
                 public float getWidthAtProgress(float t) {
                     return interpolate(
-                            decelerate5(progress(t, 0.5f, 1)),
-                            interpolate(decelerate5(progress(t, 0, 0.5f)), 144, 192), 100);
+                               decelerate5(progress(t, 0.5f, 1)),
+                               interpolate(decelerate5(progress(t, 0, 0.5f)), 144, 192), 100);
                 }
             });
 
@@ -632,7 +634,7 @@ public class FormClockRenderer {
                                     108 + 36, 72 + interpolate(d, 0, 72),
                                     -90, 180, true, COLOR_1);
                             drawRect(interpolate(d, 8, 72), interpolate(d, 0, 72),
-                                    interpolate(d, 108, 144), interpolate(d, 72, 144), COLOR_1);
+                                     interpolate(d, 108, 144), interpolate(d, 72, 144), COLOR_1);
                         }
                         drawRect(72, 72, 144, 144, COLOR_2);
 
@@ -647,8 +649,8 @@ public class FormClockRenderer {
 
                         // bottom rectangle
                         drawRect(
-                                interpolate(d1, 56, 0), interpolate(d1, 72, 96),
-                                interpolate(d1, 128, 80), interpolate(d1, 144, 144), COLOR_1);
+                            interpolate(d1, 56, 0), interpolate(d1, 72, 96),
+                            interpolate(d1, 128, 80), interpolate(d1, 144, 144), COLOR_1);
 
                         // top part with triangle
                         canvas.save();
@@ -660,15 +662,15 @@ public class FormClockRenderer {
                         path.close();
                         drawPath(path, COLOR_3);
                         drawRect(
-                                interpolate(d1, 56, 0), 0,
-                                interpolate(d1, 128, 80), interpolate(d1, 72, 48), COLOR_3);
+                            interpolate(d1, 56, 0), 0,
+                            interpolate(d1, 128, 80), interpolate(d1, 72, 48), COLOR_3);
                         canvas.restore();
 
                         // middle rectangle
                         canvas.save();
                         drawRect(
-                                interpolate(d1, 56, 32), interpolate(d1, 72, 48),
-                                interpolate(d1, 128, 80), interpolate(d1, 144, 96), COLOR_2);
+                            interpolate(d1, 56, 32), interpolate(d1, 72, 48),
+                            interpolate(d1, 128, 80), interpolate(d1, 144, 96), COLOR_2);
                         canvas.restore();
                     }
                 }
@@ -703,8 +705,8 @@ public class FormClockRenderer {
                         // middle rectangle
                         canvas.save();
                         drawRect(
-                                interpolate(d1, 56, 32), interpolate(d1, 72, 48),
-                                interpolate(d1, 128, 80), interpolate(d1, 144, 96), COLOR_2);
+                            interpolate(d1, 56, 32), interpolate(d1, 72, 48),
+                            interpolate(d1, 128, 80), interpolate(d1, 144, 96), COLOR_2);
                         canvas.restore();
 
                         // half-circle
@@ -715,8 +717,8 @@ public class FormClockRenderer {
 
                         // bottom rectangle
                         drawRect(
-                                interpolate(d1, 56, 0), interpolate(d1, 72, 96),
-                                interpolate(d1, 128, 80), interpolate(d1, 144, 144), COLOR_1);
+                            interpolate(d1, 56, 0), interpolate(d1, 72, 96),
+                            interpolate(d1, 128, 80), interpolate(d1, 144, 144), COLOR_1);
 
                         // top part with triangle
                         canvas.save();
@@ -735,8 +737,8 @@ public class FormClockRenderer {
                             path.close();
                             drawPath(path, COLOR_3);
                             drawRect(
-                                    interpolate(d1, 56, 0), 0,
-                                    interpolate(d1, 128, 80), interpolate(d1, 72, 48), COLOR_3);
+                                interpolate(d1, 56, 0), 0,
+                                interpolate(d1, 128, 80), interpolate(d1, 72, 48), COLOR_3);
                         }
                         canvas.restore();
 
@@ -795,7 +797,7 @@ public class FormClockRenderer {
 
                         // top rectangle
                         drawRect(interpolate(d, 72, 0), interpolate(d, 0, 72),
-                                interpolate(d, 144, 72), interpolate(d, 72, 144), COLOR_3);
+                                 interpolate(d, 144, 72), interpolate(d, 72, 144), COLOR_3);
 
                         // triangle
                         canvas.save();
@@ -811,14 +813,14 @@ public class FormClockRenderer {
 
                         // middle rectangle
                         drawRect(0, 72,
-                                interpolate(d, 144, 72), interpolate(d, 108, 144), COLOR_1);
+                                 interpolate(d, 144, 72), interpolate(d, 108, 144), COLOR_1);
                     } else {
                         // 5
                         // wing rectangle
                         canvas.save();
                         drawRect(
-                                80, interpolate(d1, 72, 0),
-                                interpolate(d1, 80, 128), interpolate(d1, 144, 48), COLOR_2);
+                            80, interpolate(d1, 72, 0),
+                            interpolate(d1, 80, 128), interpolate(d1, 144, 48), COLOR_2);
                         canvas.restore();
 
                         // half-circle
@@ -833,8 +835,8 @@ public class FormClockRenderer {
 
                         // middle rectangle
                         drawRect(
-                                0, interpolate(d1, 72, 0),
-                                80, interpolate(d1, 144, 96), COLOR_1);
+                            0, interpolate(d1, 72, 0),
+                            80, interpolate(d1, 144, 96), COLOR_1);
                     }
                 }
 
@@ -884,14 +886,14 @@ public class FormClockRenderer {
 
                     if (d1 == 0) {
                         drawArc(
-                                32, 48,
-                                128, 144, -90, 180, true, COLOR_3);
+                            32, 48,
+                            128, 144, -90, 180, true, COLOR_3);
                     } else {
                         scaleUniform(interpolate(d1, 2f / 3, 1), 80, 144);
                         canvas.translate(interpolate(d1, 8, 0), 0);
                         drawArc(
-                                0, 0,
-                                144, 144, -90, 180, true, COLOR_3);
+                            0, 0,
+                            144, 144, -90, 180, true, COLOR_3);
                     }
 
                     // 6 (just the parallelogram)
@@ -1017,8 +1019,8 @@ public class FormClockRenderer {
                     if (d < 1) {
                         // 7 rectangle
                         drawRect(
-                                interpolate(d, 0, 48), interpolate(d, 0, 96),
-                                interpolate(d, 72, 96), interpolate(d, 72, 144), COLOR_3);
+                            interpolate(d, 0, 48), interpolate(d, 0, 96),
+                            interpolate(d, 72, 96), interpolate(d, 72, 144), COLOR_3);
 
                         // 7 parallelogram
                         path.reset();
@@ -1079,7 +1081,7 @@ public class FormClockRenderer {
                         } else {
                             // bottom middle
                             drawRect(interpolate(d, 48, 72) - 2, interpolate(d, 48, 0),
-                                    interpolate(d, 96, 72) + 2, 144, COLOR_1);
+                                     interpolate(d, 96, 72) + 2, 144, COLOR_1);
 
                             // left bottom
                             canvas.save();
@@ -1193,8 +1195,8 @@ public class FormClockRenderer {
                     // 1
                     scaleUniform(interpolate(d1, 0, 1), 0, 144);
                     drawRect(
-                            interpolate(d2, 28, 0), interpolate(d2, 72, 0),
-                            100, interpolate(d2, 144, 48), COLOR_2);
+                        interpolate(d2, 28, 0), interpolate(d2, 72, 0),
+                        100, interpolate(d2, 144, 48), COLOR_2);
 
                     if (d2 > 0) {
                         drawRect(28, interpolate(d2, 144, 48), 100, 144, COLOR_3);
@@ -1225,8 +1227,8 @@ public class FormClockRenderer {
 
                     scaleUniform(interpolate(d2, 1, 0), 0, 144);
                     drawRect(
-                            interpolate(d1, 0, 28), interpolate(d1, 0, 72),
-                            100, interpolate(d1, 48, 144), COLOR_2);
+                        interpolate(d1, 0, 28), interpolate(d1, 0, 72),
+                        100, interpolate(d1, 48, 144), COLOR_2);
 
                     if (d1 < 1) {
                         drawRect(28, interpolate(d1, 48, 144), 100, 144, COLOR_3);
@@ -1279,7 +1281,7 @@ public class FormClockRenderer {
 
                         canvas.save();
                         drawRect(interpolate(d, 8, 72), interpolate(d, 0, 72),
-                                interpolate(d, 108, 144), interpolate(d, 72, 144), COLOR_1);
+                                 interpolate(d, 108, 144), interpolate(d, 72, 144), COLOR_1);
                         canvas.restore();
                     }
 
@@ -1294,7 +1296,7 @@ public class FormClockRenderer {
                 @Override
                 public float getWidthAtProgress(float t) {
                     return interpolate(decelerate5(progress(t, 0, 0.5f)), 144,
-                            interpolate(decelerate5(progress(t, 0.5f, 1)), 72, 0));
+                                       interpolate(decelerate5(progress(t, 0.5f, 1)), 72, 0));
                 }
             });
 
@@ -1335,13 +1337,13 @@ public class FormClockRenderer {
 
                     // bottom rectangle in 3
                     drawRect(
-                            interpolate(d1, interpolate(d2, 32, 80), 0), 96,
-                            80, 144, COLOR_1);
+                        interpolate(d1, interpolate(d2, 32, 80), 0), 96,
+                        80, 144, COLOR_1);
 
                     // middle rectangle
                     drawRect(
-                            interpolate(d2, 32, 80), 48,
-                            80, 96, COLOR_2);
+                        interpolate(d2, 32, 80), 48,
+                        80, 96, COLOR_2);
 
                     // 0
 
@@ -1353,14 +1355,14 @@ public class FormClockRenderer {
                         canvas.save();
                         canvas.rotate(interpolate(d2, -180, 0), 72, 72);
                         drawArc(
-                                0, 0,
-                                144, 144, 90, 180, true, COLOR_2);
+                            0, 0,
+                            144, 144, 90, 180, true, COLOR_2);
                         canvas.restore();
                     }
 
                     drawArc(
-                            0, 0,
-                            144, 144, -90, 180, true, COLOR_3);
+                        0, 0,
+                        144, 144, -90, 180, true, COLOR_3);
 
                     canvas.restore();
                 }
@@ -1395,8 +1397,8 @@ public class FormClockRenderer {
                         // wing rectangle
                         canvas.save();
                         drawRect(
-                                80, interpolate(d, 0, 48),
-                                interpolate(d, 128, 80), interpolate(d, 48, 144), COLOR_2);
+                            80, interpolate(d, 0, 48),
+                            interpolate(d, 128, 80), interpolate(d, 48, 144), COLOR_2);
                         canvas.restore();
 
                         // bottom rectangle
@@ -1405,8 +1407,8 @@ public class FormClockRenderer {
 
                     // middle rectangle
                     drawRect(
-                            interpolate(d1, 0, 80), interpolate(d, 0, interpolate(d1, 48, 0)),
-                            80, interpolate(d, 96, 144), COLOR_1);
+                        interpolate(d1, 0, 80), interpolate(d, 0, interpolate(d1, 48, 0)),
+                        80, interpolate(d, 96, 144), COLOR_1);
 
                     scaleUniform(interpolate(d1, 2f/3, 1), 80, 144);
 
@@ -1415,15 +1417,15 @@ public class FormClockRenderer {
                         canvas.save();
                         canvas.rotate(interpolate(d1, -180, 0), 72, 72);
                         drawArc(
-                                0, 0,
-                                144, 144, 90, 180, true, COLOR_2);
+                            0, 0,
+                            144, 144, 90, 180, true, COLOR_2);
                         canvas.restore();
                     }
 
                     canvas.translate(interpolate(d1, 8, 0), 0);
                     drawArc(
-                            0, 0,
-                            144, 144, -90, 180, true, COLOR_3);
+                        0, 0,
+                        144, 144, -90, 180, true, COLOR_3);
 
                     canvas.restore();
                 }

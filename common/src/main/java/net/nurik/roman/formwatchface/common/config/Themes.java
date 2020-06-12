@@ -28,11 +28,11 @@ public class Themes {
     private static Map<String, Theme> THEMES_BY_ID = new HashMap<>();
 
     public static final Theme[] THEMES = new Theme[] {
-            new Theme("blue", R.color.form_blue_light, R.color.form_blue_mid, R.color.form_blue_dark),
-            new Theme("teal", R.color.form_teal_light, R.color.form_teal_mid, R.color.form_teal_dark),
-            new Theme("red", R.color.form_red_light, R.color.form_red_mid, R.color.form_red_dark),
-            new Theme("yellow", R.color.form_yellow_light, R.color.form_yellow_mid, R.color.form_yellow_dark),
-            new Theme("gray", R.color.form_gray_light, R.color.form_gray_mid, R.color.form_gray_dark),
+        new Theme("blue", R.color.form_blue_light, R.color.form_blue_mid, R.color.form_blue_dark),
+        new Theme("teal", R.color.form_teal_light, R.color.form_teal_mid, R.color.form_teal_dark),
+        new Theme("red", R.color.form_red_light, R.color.form_red_mid, R.color.form_red_dark),
+        new Theme("yellow", R.color.form_yellow_light, R.color.form_yellow_mid, R.color.form_yellow_dark),
+        new Theme("gray", R.color.form_gray_light, R.color.form_gray_mid, R.color.form_gray_dark),
     };
 
     public static Theme MUZEI_THEME = new Theme("muzei", 0, 0, 0);

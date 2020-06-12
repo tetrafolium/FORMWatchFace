@@ -63,7 +63,7 @@ public class ConfigThemeFragment extends Fragment {
             @Override
             public WearableListView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 return new ItemViewHolder(inflater
-                        .inflate(R.layout.config_theme_color_item, parent, false));
+                                          .inflate(R.layout.config_theme_color_item, parent, false));
             }
 
             @Override
@@ -81,7 +81,7 @@ public class ConfigThemeFragment extends Fragment {
                 } else {
                     theme = Themes.THEMES[position];
                     ((GradientDrawable) itemHolder.circleView.getDrawable()).setColor(
-                            getResources().getColor(theme.darkRes));
+                        getResources().getColor(theme.darkRes));
                 }
                 holder.itemView.setTag(theme.id);
             }

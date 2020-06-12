@@ -29,15 +29,15 @@ import android.widget.CheckedTextView;
 
 public class ConfigComplicationsFragment extends Fragment {
     private static final String[] PREF_KEYS = {
-            "pref_show_notification_count",
-            "pref_show_date",
-            "pref_show_seconds",
+        "pref_show_notification_count",
+        "pref_show_date",
+        "pref_show_seconds",
     };
 
     private static final int[] PREF_TITLE_IDS = {
-            R.string.pref_show_notification_count_title,
-            R.string.pref_show_date_title,
-            R.string.pref_show_seconds_title
+        R.string.pref_show_notification_count_title,
+        R.string.pref_show_date_title,
+        R.string.pref_show_seconds_title
     };
 
     private View mRootView;
@@ -70,7 +70,7 @@ public class ConfigComplicationsFragment extends Fragment {
             final String prefKey = PREF_KEYS[i];
 
             ViewGroup itemContainer = (ViewGroup) inflater.inflate(R.layout.config_complications_item,
-                    complicationsContainer, false);
+                                      complicationsContainer, false);
             final CheckedTextView titleView = (CheckedTextView) itemContainer.findViewById(android.R.id.text1);
             final View checkmarkView = itemContainer.findViewById(R.id.checkmark);
 

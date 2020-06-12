@@ -66,16 +66,16 @@ public class FormClockView extends View {
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         // Attribute initialization
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FormClockView,
-                defStyleAttr, defStyleRes);
+                             defStyleAttr, defStyleRes);
 
         // Configure renderers
         mHourMinOptions = new FormClockRenderer.Options();
         mHourMinOptions.textSize = a.getDimension(R.styleable.FormClockView_textSize,
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20,
-                        getResources().getDisplayMetrics()));
+                                   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20,
+                                           getResources().getDisplayMetrics()));
         mHourMinOptions.charSpacing = a.getDimension(R.styleable.FormClockView_charSpacing,
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 6,
-                        getResources().getDisplayMetrics()));
+                                      TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 6,
+                                              getResources().getDisplayMetrics()));
         mHourMinOptions.is24hour = DateFormat.is24HourFormat(context);
 
         mHourMinOptions.glyphAnimAverageDelay = 500;
@@ -144,20 +144,20 @@ public class FormClockView extends View {
         mHourMinRenderer.updateTime();
         PointF hourMinSize = mHourMinRenderer.measure(true);
         mHourMinRenderer.draw(canvas,
-                (mWidth - hourMinSize.x) / 2,
-                (mHeight - hourMinSize.y) / 2,
-                true,
-                false);
+                              (mWidth - hourMinSize.x) / 2,
+                              (mHeight - hourMinSize.y) / 2,
+                              true,
+                              false);
 
         mSecondsRenderer.updateTime();
         PointF secondsSize = mSecondsRenderer.measure(true);
         mSecondsRenderer.draw(canvas,
-                (mWidth + hourMinSize.x) / 2 - secondsSize.x,
-                (mHeight + hourMinSize.y) / 2
-                        + TypedValue.applyDimension(5, TypedValue.COMPLEX_UNIT_DIP,
-                        getResources().getDisplayMetrics()),
-                true,
-                false);
+                              (mWidth + hourMinSize.x) / 2 - secondsSize.x,
+                              (mHeight + hourMinSize.y) / 2
+                              + TypedValue.applyDimension(5, TypedValue.COMPLEX_UNIT_DIP,
+                                      getResources().getDisplayMetrics()),
+                              true,
+                              false);
 
         long timeToNextSecondsAnimation = mSecondsRenderer.timeToNextAnimation();
         long timeToNextHourMinAnimation = mHourMinRenderer.timeToNextAnimation();
@@ -182,8 +182,8 @@ public class FormClockView extends View {
 
     private void registerSystemSettingsListener() {
         getContext().getContentResolver().registerContentObserver(
-                Settings.System.getUriFor(Settings.System.TIME_12_24),
-                false, mSystemSettingsObserver);
+            Settings.System.getUriFor(Settings.System.TIME_12_24),
+            false, mSystemSettingsObserver);
     }
 
     private void unregisterSystemSettingsListener() {

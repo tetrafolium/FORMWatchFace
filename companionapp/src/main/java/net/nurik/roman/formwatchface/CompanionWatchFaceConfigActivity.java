@@ -57,7 +57,7 @@ import static net.nurik.roman.formwatchface.common.config.Themes.MUZEI_THEME;
 import static net.nurik.roman.formwatchface.common.config.Themes.Theme;
 
 public class CompanionWatchFaceConfigActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<LoadedArtwork> {
+    implements LoaderManager.LoaderCallbacks<LoadedArtwork> {
 
     private static final String TAG = "CompanionWatchFaceConfigActivity";
 
@@ -83,8 +83,8 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         setContentView(R.layout.config_activity);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -124,19 +124,19 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
 
         // Set up complications config fragment
         mConfigComplicationsFragment = (ConfigComplicationsFragment) getFragmentManager()
-                .findFragmentById(R.id.config_complications_container);
+                                       .findFragmentById(R.id.config_complications_container);
         if (mConfigComplicationsFragment == null) {
             mConfigComplicationsFragment = new ConfigComplicationsFragment();
             getFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.config_complications_container, mConfigComplicationsFragment)
-                    .commit();
+            .beginTransaction()
+            .add(R.id.config_complications_container, mConfigComplicationsFragment)
+            .commit();
         }
 
         // Set up tabs/pager
         final ViewPager pager = (ViewPager) findViewById(R.id.view_pager);
         pager.setPageMargin((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16,
-                getResources().getDisplayMetrics()));
+                            getResources().getDisplayMetrics()));
 
         SimplePagerHelper helper = new SimplePagerHelper(this, pager);
         helper.addPage(R.string.title_theme, R.id.config_theme_container);
@@ -174,12 +174,12 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
     }
 
     private SharedPreferences.OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener
-            = new SharedPreferences.OnSharedPreferenceChangeListener() {
+    = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (ConfigHelper.isConfigPrefKey(key)) {
                 UpdateConfigIntentService.startConfigChangeService(
-                        CompanionWatchFaceConfigActivity.this);
+                    CompanionWatchFaceConfigActivity.this);
 
                 if (mConfigComplicationsFragment != null) {
                     mConfigComplicationsFragment.update();
@@ -187,7 +187,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
 
                 if (ConfigHelper.KEY_THEME.equals(key)) {
                     String themeId = mSharedPreferences
-                            .getString(ConfigHelper.KEY_THEME, Themes.DEFAULT_THEME.id);
+                                     .getString(ConfigHelper.KEY_THEME, Themes.DEFAULT_THEME.id);
                     updateUIToSelectedTheme(themeId, true);
                 }
             }
@@ -206,7 +206,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
             holder.button = (ImageButton) holder.container.findViewById(R.id.button);
 
             LayerDrawable bgDrawable = (LayerDrawable)
-                    getResources().getDrawable(R.drawable.theme_item_bg).mutate();
+                                       getResources().getDrawable(R.drawable.theme_item_bg).mutate();
 
             GradientDrawable gd = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.color);
             gd.setColor(getResources().getColor(theme.midRes));
@@ -240,7 +240,7 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
         holder.button = (ImageButton) holder.container.findViewById(R.id.button);
 
         LayerDrawable bgDrawable = (LayerDrawable)
-                getResources().getDrawable(R.drawable.theme_muzei_item_bg).mutate();
+                                   getResources().getDrawable(R.drawable.theme_muzei_item_bg).mutate();
         holder.button.setBackground(bgDrawable);
 
         holder.button.setOnClickListener(new View.OnClickListener() {
@@ -307,8 +307,8 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
                     clockContainerRect.offsetTo(0, 0);
 
                     mCurrentRevealAnimator = ViewAnimationUtils.createCircularReveal(
-                            mAnimateClockContainerView, cx, cy, 0,
-                            MathUtil.maxDistanceToCorner(clockContainerRect, cx, cy));
+                                                 mAnimateClockContainerView, cx, cy, 0,
+                                                 MathUtil.maxDistanceToCorner(clockContainerRect, cx, cy));
                     mAnimateClockContainerView.setVisibility(View.VISIBLE);
                     mCurrentRevealAnimator.setDuration(300);
                     mCurrentRevealAnimator.addListener(new AnimatorListenerAdapter() {
@@ -336,23 +336,23 @@ public class CompanionWatchFaceConfigActivity extends AppCompatActivity
         if (theme == Themes.MUZEI_THEME) {
             if (mMuzeiLoadedArtwork != null) {
                 ((ImageView) clockContainerView.findViewById(R.id.background_image))
-                        .setImageBitmap(mMuzeiLoadedArtwork.bitmap);
+                .setImageBitmap(mMuzeiLoadedArtwork.bitmap);
                 clockView.setColors(
-                        mMuzeiLoadedArtwork.color1,
-                        mMuzeiLoadedArtwork.color2,
-                        Color.WHITE);
+                    mMuzeiLoadedArtwork.color1,
+                    mMuzeiLoadedArtwork.color2,
+                    Color.WHITE);
             }
             clockContainerView.setBackgroundColor(Color.BLACK);
         } else {
             ((ImageView) clockContainerView.findViewById(R.id.background_image))
-                    .setImageDrawable(null);
+            .setImageDrawable(null);
             final Resources res = getResources();
             clockView.setColors(
-                    res.getColor(theme.lightRes),
-                    res.getColor(theme.midRes),
-                    Color.WHITE);
+                res.getColor(theme.lightRes),
+                res.getColor(theme.midRes),
+                Color.WHITE);
             clockContainerView.setBackgroundColor(
-                    res.getColor(theme.darkRes));
+                res.getColor(theme.darkRes));
         }
     }
 

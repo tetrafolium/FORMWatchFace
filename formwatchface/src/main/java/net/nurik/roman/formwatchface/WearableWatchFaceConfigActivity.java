@@ -61,11 +61,11 @@ public class WearableWatchFaceConfigActivity extends Activity {
             @Override
             public Fragment getFragment(int row, int column) {
                 switch (column) {
-                    case 0:
-                        return new ConfigThemeFragment();
-                    case 1:
-                        mConfigComplicationsFragment = new ConfigComplicationsFragment();
-                        return mConfigComplicationsFragment;
+                case 0:
+                    return new ConfigThemeFragment();
+                case 1:
+                    mConfigComplicationsFragment = new ConfigComplicationsFragment();
+                    return mConfigComplicationsFragment;
                 }
 
                 return null;
@@ -91,10 +91,10 @@ public class WearableWatchFaceConfigActivity extends Activity {
             public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
                 mIsRound = insets.isRound();
                 mInsetsRect.set(
-                        insets.getSystemWindowInsetLeft(),
-                        insets.getSystemWindowInsetTop(),
-                        insets.getSystemWindowInsetRight(),
-                        insets.getSystemWindowInsetBottom());
+                    insets.getSystemWindowInsetLeft(),
+                    insets.getSystemWindowInsetTop(),
+                    insets.getSystemWindowInsetRight(),
+                    insets.getSystemWindowInsetBottom());
 
                 mPagerIndicator.setTranslationY(-mInsetsRect.bottom);
 
@@ -133,12 +133,12 @@ public class WearableWatchFaceConfigActivity extends Activity {
     }
 
     private SharedPreferences.OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener
-            = new SharedPreferences.OnSharedPreferenceChangeListener() {
+    = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (ConfigHelper.isConfigPrefKey(key)) {
                 UpdateConfigIntentService.startConfigChangeService(
-                        WearableWatchFaceConfigActivity.this);
+                    WearableWatchFaceConfigActivity.this);
 
                 if (mConfigComplicationsFragment != null) {
                     mConfigComplicationsFragment.update();
