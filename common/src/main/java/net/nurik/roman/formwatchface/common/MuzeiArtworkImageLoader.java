@@ -24,96 +24,94 @@ import android.graphics.Color;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.util.Pair;
-
 import com.google.android.apps.muzei.api.Artwork;
 import com.google.android.apps.muzei.api.MuzeiContract;
-
 import java.io.FileNotFoundException;
 
 /**
- * AsyncTaskLoader which provides access to the current Muzei artwork image. It also
- * registers a ContentObserver to ensure the image stays up to date
+ * AsyncTaskLoader which provides access to the current Muzei artwork image. It
+ * also registers a ContentObserver to ensure the image stays up to date
  */
-public class MuzeiArtworkImageLoader extends AsyncTaskLoader<MuzeiArtworkImageLoader.LoadedArtwork> {
-    private ContentObserver mContentObserver;
+public class MuzeiArtworkImageLoader
+    extends AsyncTaskLoader<MuzeiArtworkImageLoader.LoadedArtwork> {
+  private ContentObserver mContentObserver;
 
-    public MuzeiArtworkImageLoader(final Context context) {
-        super(context);
-    }
+  public MuzeiArtworkImageLoader(final Context context) { super(context); }
 
-    public static boolean hasMuzeiArtwork(final Context context) {
-        Artwork currentArtwork = MuzeiContract.Artwork.getCurrentArtwork(context);
-        return currentArtwork != null;
-    }
+  public static boolean hasMuzeiArtwork(final Context context) {
+    Artwork currentArtwork = MuzeiContract.Artwork.getCurrentArtwork(context);
+    return currentArtwork != null;
+  }
 
-    @Override
-    protected void onStartLoading() {
-        if (mContentObserver == null) {
-            mContentObserver = new ContentObserver(null) {
-                @Override
-                public void onChange(final boolean selfChange) {
-                    onContentChanged();
-                }
-            };
-            getContext().getContentResolver().registerContentObserver(
-                MuzeiContract.Artwork.CONTENT_URI, true, mContentObserver);
+  @Override
+  protected void onStartLoading() {
+    if (mContentObserver == null) {
+      mContentObserver = new ContentObserver(null) {
+        @Override
+        public void onChange(final boolean selfChange) {
+          onContentChanged();
         }
-        forceLoad();
+      };
+      getContext().getContentResolver().registerContentObserver(
+          MuzeiContract.Artwork.CONTENT_URI, true, mContentObserver);
     }
+    forceLoad();
+  }
 
-    @Override
-    public MuzeiArtworkImageLoader.LoadedArtwork loadInBackground() {
-        try {
-            Bitmap bitmap = MuzeiContract.Artwork.getCurrentArtworkBitmap(getContext());
-            if (bitmap == null) {
-                return null;
-            }
-            Pair<Integer, Integer> p = extractColors(bitmap);
-            return new LoadedArtwork(bitmap, p.first, p.second);
-        } catch (FileNotFoundException e) {
-            Log.e(MuzeiArtworkImageLoader.class.getSimpleName(), "Error getting artwork image", e);
-        }
+  @Override
+  public MuzeiArtworkImageLoader.LoadedArtwork loadInBackground() {
+    try {
+      Bitmap bitmap =
+          MuzeiContract.Artwork.getCurrentArtworkBitmap(getContext());
+      if (bitmap == null) {
         return null;
+      }
+      Pair<Integer, Integer> p = extractColors(bitmap);
+      return new LoadedArtwork(bitmap, p.first, p.second);
+    } catch (FileNotFoundException e) {
+      Log.e(MuzeiArtworkImageLoader.class.getSimpleName(),
+            "Error getting artwork image", e);
     }
+    return null;
+  }
 
-    private Pair<Integer, Integer> extractColors(final Bitmap bitmap) {
-        Palette palette = Palette.generate(bitmap, 16);
-        int midColor = palette.getVibrantColor(
-                           palette.getDarkVibrantColor(
-                               palette.getMutedColor(
-                                   palette.getDarkMutedColor(Color.GRAY))));
-        int lightColor = palette.getLightMutedColor(
-                             palette.getLightVibrantColor(
-                                 palette.getMutedColor(Color.BLACK)));
-        if (lightColor == Color.BLACK) {
-            lightColor = lighten(midColor, 0.2f);
-        }
-        return new Pair<>(lightColor, midColor);
+  private Pair<Integer, Integer> extractColors(final Bitmap bitmap) {
+    Palette palette = Palette.generate(bitmap, 16);
+    int midColor = palette.getVibrantColor(palette.getDarkVibrantColor(
+        palette.getMutedColor(palette.getDarkMutedColor(Color.GRAY))));
+    int lightColor = palette.getLightMutedColor(
+        palette.getLightVibrantColor(palette.getMutedColor(Color.BLACK)));
+    if (lightColor == Color.BLACK) {
+      lightColor = lighten(midColor, 0.2f);
     }
+    return new Pair<>(lightColor, midColor);
+  }
 
-    private static int lighten(final int color, final float amount) {
-        float hsv[] = new float[3];
-        Color.colorToHSV(color, hsv);
-        hsv[2] = Math.max(0f, Math.min(1f, hsv[2] + amount));
-        return Color.HSVToColor(hsv);
+  private static int lighten(final int color, final float amount) {
+    float hsv[] = new float[3];
+    Color.colorToHSV(color, hsv);
+    hsv[2] = Math.max(0f, Math.min(1f, hsv[2] + amount));
+    return Color.HSVToColor(hsv);
+  }
+
+  @Override
+  protected void onReset() {
+    if (mContentObserver != null) {
+      getContext().getContentResolver().unregisterContentObserver(
+          mContentObserver);
     }
+  }
 
-    @Override
-    protected void onReset() {
-        if (mContentObserver != null) {
-            getContext().getContentResolver().unregisterContentObserver(mContentObserver);
-        }
+  public static class LoadedArtwork {
+    public Bitmap bitmap;
+    public int color1;
+    public int color2;
+
+    public LoadedArtwork(final Bitmap bitmap, final int color1,
+                         final int color2) {
+      this.bitmap = bitmap;
+      this.color1 = color1;
+      this.color2 = color2;
     }
-
-    public static class LoadedArtwork {
-        public Bitmap bitmap;
-        public int color1;
-        public int color2;
-
-        public LoadedArtwork(final Bitmap bitmap, final int color1, final int color2) {
-            this.bitmap = bitmap;
-            this.color1 = color1;
-            this.color2 = color2;
-        }
-    }
+  }
 }

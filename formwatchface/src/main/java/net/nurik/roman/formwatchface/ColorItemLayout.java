@@ -22,39 +22,39 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class ColorItemLayout extends LinearLayout implements WearableListView.OnCenterProximityListener {
-    private ImageView mCircleView;
+public class ColorItemLayout
+    extends LinearLayout implements WearableListView.OnCenterProximityListener {
+  private ImageView mCircleView;
 
-    public ColorItemLayout(final Context context) {
-        this(context, null);
-    }
+  public ColorItemLayout(final Context context) { this(context, null); }
 
-    public ColorItemLayout(final Context context, final AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
+  public ColorItemLayout(final Context context, final AttributeSet attrs) {
+    this(context, attrs, 0);
+  }
 
-    public ColorItemLayout(final Context context, final AttributeSet attrs, final int defStyle) {
-        super(context, attrs, defStyle);
-    }
+  public ColorItemLayout(final Context context, final AttributeSet attrs,
+                         final int defStyle) {
+    super(context, attrs, defStyle);
+  }
 
-    // Get references to the icon and text in the item layout definition
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        mCircleView = (ImageView) findViewById(R.id.circle);
-    }
+  // Get references to the icon and text in the item layout definition
+  @Override
+  protected void onFinishInflate() {
+    super.onFinishInflate();
+    mCircleView = (ImageView)findViewById(R.id.circle);
+  }
 
-    @Override
-    public void onCenterPosition(final boolean animate) {
-        mCircleView.setScaleX(1f);
-        mCircleView.setScaleY(1f);
-        mCircleView.setAlpha(1f);
-    }
+  @Override
+  public void onCenterPosition(final boolean animate) {
+    mCircleView.setScaleX(1f);
+    mCircleView.setScaleY(1f);
+    mCircleView.setAlpha(1f);
+  }
 
-    @Override
-    public void onNonCenterPosition(final boolean animate) {
-        mCircleView.setScaleX(0.7f);
-        mCircleView.setScaleY(0.7f);
-        mCircleView.setAlpha(0.5f);
-    }
+  @Override
+  public void onNonCenterPosition(final boolean animate) {
+    mCircleView.setScaleX(0.7f);
+    mCircleView.setScaleY(0.7f);
+    mCircleView.setAlpha(0.5f);
+  }
 }

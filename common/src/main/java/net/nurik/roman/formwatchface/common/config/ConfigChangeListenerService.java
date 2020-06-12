@@ -18,33 +18,32 @@ package net.nurik.roman.formwatchface.common.config;
 
 import android.net.Uri;
 import android.text.TextUtils;
-
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.WearableListenerService;
 
 public class ConfigChangeListenerService extends WearableListenerService {
-    @Override
-    public void onDataChanged(final DataEventBuffer dataEvents) {
-        ConfigHelper configHelper = new ConfigHelper(this);
-        if (!configHelper.connect()) {
-            return;
-        }
-
-        String localNodeId = configHelper.getLocalNodeId();
-
-        for (DataEvent dataEvent : dataEvents) {
-            if (dataEvent.getType() != DataEvent.TYPE_CHANGED) {
-                continue;
-            }
-
-            Uri uri = dataEvent.getDataItem().getUri();
-            if (!TextUtils.equals(uri.getHost(), localNodeId)
-                    && uri.getPath().equals("/config")) {
-                configHelper.readConfigSharedPrefsFromDataLayer();
-            }
-        }
-
-        configHelper.disconnect();
+  @Override
+  public void onDataChanged(final DataEventBuffer dataEvents) {
+    ConfigHelper configHelper = new ConfigHelper(this);
+    if (!configHelper.connect()) {
+      return;
     }
+
+    String localNodeId = configHelper.getLocalNodeId();
+
+    for (DataEvent dataEvent : dataEvents) {
+      if (dataEvent.getType() != DataEvent.TYPE_CHANGED) {
+        continue;
+      }
+
+      Uri uri = dataEvent.getDataItem().getUri();
+      if (!TextUtils.equals(uri.getHost(), localNodeId) &&
+          uri.getPath().equals("/config")) {
+        configHelper.readConfigSharedPrefsFromDataLayer();
+      }
+    }
+
+    configHelper.disconnect();
+  }
 }

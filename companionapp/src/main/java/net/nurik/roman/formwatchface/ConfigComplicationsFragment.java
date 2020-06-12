@@ -24,22 +24,23 @@ import android.view.ViewGroup;
 
 public class ConfigComplicationsFragment extends PreferenceFragment {
 
-    public ConfigComplicationsFragment() {
-    }
+  public ConfigComplicationsFragment() {}
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_complications);
-    }
+  @Override
+  public void onCreate(final Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    addPreferencesFromResource(R.xml.pref_complications);
+  }
 
-    public void update() {
-        setPreferenceScreen(null);
-        addPreferencesFromResource(R.xml.pref_complications);
-    }
+  public void update() {
+    setPreferenceScreen(null);
+    addPreferencesFromResource(R.xml.pref_complications);
+  }
 
-    @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.prefs_fragment, container, false);
-    }
+  @Override
+  public View onCreateView(final LayoutInflater inflater,
+                           final ViewGroup container,
+                           final Bundle savedInstanceState) {
+    return inflater.inflate(R.layout.prefs_fragment, container, false);
+  }
 }

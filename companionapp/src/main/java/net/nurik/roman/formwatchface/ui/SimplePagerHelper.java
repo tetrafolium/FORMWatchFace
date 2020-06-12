@@ -21,59 +21,61 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A helper class for creating swipeable tabs without the use of {@link android.app.ActionBar} APIs.
+ * A helper class for creating swipeable tabs without the use of {@link
+ * android.app.ActionBar} APIs.
  */
 public class SimplePagerHelper {
-    private Context mContext;
-    private ViewPager mPager;
-    private List<Integer> mPageContentIds = new ArrayList<>();
-    private List<CharSequence> mPageLabels = new ArrayList<>();
+  private Context mContext;
+  private ViewPager mPager;
+  private List<Integer> mPageContentIds = new ArrayList<>();
+  private List<CharSequence> mPageLabels = new ArrayList<>();
 
-    public SimplePagerHelper(final Context context, final ViewPager pager) {
-        mContext = context;
-        mPager = pager;
-        pager.setAdapter(mAdapter);
+  public SimplePagerHelper(final Context context, final ViewPager pager) {
+    mContext = context;
+    mPager = pager;
+    pager.setAdapter(mAdapter);
+  }
+
+  public void addPage(final int labelResId, final int contentViewId) {
+    addPage(mContext.getString(labelResId), contentViewId);
+  }
+
+  public void addPage(final CharSequence label, final int contentViewId) {
+    mPageLabels.add(label);
+    mPageContentIds.add(contentViewId);
+    mAdapter.notifyDataSetChanged();
+  }
+
+  private PagerAdapter mAdapter = new PagerAdapter() {
+    @Override
+    public int getCount() {
+      return mPageContentIds.size();
     }
 
-    public void addPage(final int labelResId, final int contentViewId) {
-        addPage(mContext.getString(labelResId), contentViewId);
+    @Override
+    public boolean isViewFromObject(final View view, final Object o) {
+      return view == o;
     }
 
-    public void addPage(final CharSequence label, final int contentViewId) {
-        mPageLabels.add(label);
-        mPageContentIds.add(contentViewId);
-        mAdapter.notifyDataSetChanged();
+    @Override
+    public Object instantiateItem(final ViewGroup container,
+                                  final int position) {
+      return mPager.findViewById(mPageContentIds.get(position));
     }
 
-    private PagerAdapter mAdapter = new PagerAdapter() {
-        @Override
-        public int getCount() {
-            return mPageContentIds.size();
-        }
+    @Override
+    public CharSequence getPageTitle(final int position) {
+      return mPageLabels.get(position);
+    }
 
-        @Override
-        public boolean isViewFromObject(final View view, final Object o) {
-            return view == o;
-        }
-
-        @Override
-        public Object instantiateItem(final ViewGroup container, final int position) {
-            return mPager.findViewById(mPageContentIds.get(position));
-        }
-
-        @Override
-        public CharSequence getPageTitle(final int position) {
-            return mPageLabels.get(position);
-        }
-
-        @Override
-        public void destroyItem(final ViewGroup container, final int position, final Object object) {
-            // No-op
-        }
-    };
+    @Override
+    public void destroyItem(final ViewGroup container, final int position,
+                            final Object object) {
+      // No-op
+    }
+  };
 }

@@ -21,17 +21,16 @@ import android.graphics.Bitmap;
 import android.support.v7.graphics.Palette;
 import android.util.DisplayMetrics;
 import android.util.Pair;
-
 import net.nurik.roman.formwatchface.common.MuzeiArtworkImageLoader;
 
 /**
- * Loader which provides a scaled version of the current Muzei artwork suitable for full screen
- * display on a watchface. Note: this doesn't crop the image, only scale it so that the shortest
- * dimension of the image is equal to the dimension of the screen (i.e., for wide images, the
- * height would be equal to the screen height and the width would be greater than the screen width
- * to maintain the aspect ratio)
- * <p>
- *     Note: if you are using this without a LoaderManager, you must manually call
+ * Loader which provides a scaled version of the current Muzei artwork suitable
+ * for full screen display on a watchface. Note: this doesn't crop the image,
+ * only scale it so that the shortest dimension of the image is equal to the
+ * dimension of the screen (i.e., for wide images, the height would be equal to
+ * the screen height and the width would be greater than the screen width to
+ * maintain the aspect ratio) <p> Note: if you are using this without a
+ * LoaderManager, you must manually call
  *     registerListener(Loader.OnLoadCompleteListener<Bitmap>)
  *     and startLoading() when creating the loader and
  *     unregisterListener(Loader.OnLoadCompleteListener<Bitmap>)
@@ -39,30 +38,28 @@ import net.nurik.roman.formwatchface.common.MuzeiArtworkImageLoader;
  * </p>
  */
 public class WatchfaceArtworkImageLoader extends MuzeiArtworkImageLoader {
-    public WatchfaceArtworkImageLoader(final Context context) {
-        super(context);
-    }
+  public WatchfaceArtworkImageLoader(final Context context) { super(context); }
 
-    @Override
-    public LoadedArtwork loadInBackground() {
-        LoadedArtwork loadedArtwork = super.loadInBackground();
-        if (loadedArtwork == null) {
-            return null;
-        }
-        DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-        int width = loadedArtwork.bitmap.getWidth();
-        int height = loadedArtwork.bitmap.getHeight();
-        if (width > height) {
-            float scalingFactor = metrics.heightPixels * 1f / height;
-            loadedArtwork.bitmap = Bitmap.createScaledBitmap(
-                                       loadedArtwork.bitmap, (int) (scalingFactor * width),
-                                       metrics.heightPixels, true);
-        } else {
-            float scalingFactor = metrics.widthPixels * 1f / width;
-            loadedArtwork.bitmap = Bitmap.createScaledBitmap(
-                                       loadedArtwork.bitmap, metrics.widthPixels,
-                                       (int) (scalingFactor * height), true);
-        }
-        return loadedArtwork;
+  @Override
+  public LoadedArtwork loadInBackground() {
+    LoadedArtwork loadedArtwork = super.loadInBackground();
+    if (loadedArtwork == null) {
+      return null;
     }
+    DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+    int width = loadedArtwork.bitmap.getWidth();
+    int height = loadedArtwork.bitmap.getHeight();
+    if (width > height) {
+      float scalingFactor = metrics.heightPixels * 1f / height;
+      loadedArtwork.bitmap = Bitmap.createScaledBitmap(
+          loadedArtwork.bitmap, (int)(scalingFactor * width),
+          metrics.heightPixels, true);
+    } else {
+      float scalingFactor = metrics.widthPixels * 1f / width;
+      loadedArtwork.bitmap =
+          Bitmap.createScaledBitmap(loadedArtwork.bitmap, metrics.widthPixels,
+                                    (int)(scalingFactor * height), true);
+    }
+    return loadedArtwork;
+  }
 }
